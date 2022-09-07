@@ -63,6 +63,7 @@ data:
       params:
         'match[]':
         - '{__name__=~"seed:(.+):(.+)"}'
+        - '{__name__=~"kube_verticalpodautoscaler_.*",namespace=~"garden|extension-.+"}'
       kubernetes_sd_configs:
       - role: endpoints
       relabel_configs:
