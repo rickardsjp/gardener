@@ -1,12 +1,22 @@
 {
   "annotations": {
-    "list": []
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 5,
-  "iteration": 1579608112199,
+  "id": 8,
+  "iteration": 1662542567580,
   "links": [],
   "panels": [
     {
@@ -14,7 +24,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "description": "Shows the recommendation of the VPA for the selected target.",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 6,
       "fillGradient": 0,
       "gridPos": {
@@ -23,6 +40,7 @@
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 3,
       "legend": {
         "avg": false,
@@ -38,9 +56,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.16",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -50,11 +69,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "vpa_status_recommendation{recommendation=\"target\", targetName=~\"$targetName\", resource=\"memory\"}",
+          "exemplar": true,
+          "expr": "kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", resource=\"memory\"}",
           "format": "time_series",
           "instant": false,
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ container }}-recommendation",
+          "legendFormat": "{{ container }}",
           "refId": "C"
         }
       ],
@@ -78,14 +99,16 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:16",
           "format": "bytes",
           "label": "Bytes",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:17",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -104,7 +127,14 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "description": "Shows the recommendation of the VPA for the selected target.",
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 6,
       "fillGradient": 0,
       "gridPos": {
@@ -113,6 +143,7 @@
         "x": 12,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 2,
       "legend": {
         "avg": false,
@@ -128,9 +159,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "7.5.16",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -140,10 +172,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "vpa_status_recommendation{recommendation=\"target\", resource=\"cpu\", targetName=~\"$targetName\"} / 1000",
+          "exemplar": true,
+          "expr": "kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", resource=\"cpu\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ container }}-recommendation",
+          "legendFormat": "{{ container }}",
           "refId": "C"
         }
       ],
@@ -167,14 +201,16 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:84",
           "format": "short",
           "label": "Cores",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:85",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -189,7 +225,7 @@
       }
     }
   ],
-  "schemaVersion": 19,
+  "schemaVersion": 27,
   "style": "dark",
   "tags": [
     "Autoscaling"
@@ -198,15 +234,25 @@
     "list": [
       {
         "allValue": null,
+        "current": {
+          "selected": true,
+          "text": "garden",
+          "value": "garden"
+        },
         "datasource": "prometheus",
-        "definition": "label_values(vpa_status_recommendation, targetKind)",
+        "definition": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target, namespace)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": "Kind",
+        "label": "Namespace",
         "multi": false,
-        "name": "targetKind",
+        "name": "namespace",
         "options": [],
-        "query": "label_values(vpa_status_recommendation, targetKind)",
+        "query": {
+          "query": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target, namespace)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -219,15 +265,56 @@
       },
       {
         "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "Deployment",
+          "value": "Deployment"
+        },
         "datasource": "prometheus",
-        "definition": "label_values(vpa_status_recommendation{targetKind=~\"$targetKind\"}, targetName)",
+        "definition": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target, target_kind)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Kind",
+        "multi": false,
+        "name": "targetKind",
+        "options": [],
+        "query": {
+          "query": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target, target_kind)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "dependency-watchdog-probe",
+          "value": "dependency-watchdog-probe"
+        },
+        "datasource": "prometheus",
+        "definition": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=\"$namespace\", target_kind=~\"$targetKind\"}, target_name)",
+        "description": null,
+        "error": null,
         "hide": 0,
         "includeAll": false,
         "label": "Target",
         "multi": false,
         "name": "targetName",
         "options": [],
-        "query": "label_values(vpa_status_recommendation{targetKind=~\"$targetKind\"}, targetName)",
+        "query": {
+          "query": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=\"$namespace\", target_kind=~\"$targetKind\"}, target_name)",
+          "refId": "StandardVariableQuery"
+        },
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,

@@ -15,7 +15,8 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1655446204243,
+  "id": 15,
+  "iteration": 1662543371403,
   "links": [],
   "panels": [
     {
@@ -60,31 +61,64 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:53",
+          "alias": "/lower|upper/",
+          "dashes": true,
+          "legend": false,
+          "lines": false
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
+          "exemplar": true,
           "expr": "sum(container_memory_working_set_bytes{pod=~\"$targetName(.+)\", container=~\"$container\"}) by (container)",
           "format": "time_series",
+          "hide": false,
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{ container }} actual usage",
           "refId": "D"
         },
         {
-          "expr": "sum(vpa_status_recommendation{recommendation=\"$recommendation\", resource=\"memory\", targetName=\"$targetName\", container=~\"$container\"}) by (container)",
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{resource=\"memory\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ container }}-recommendation",
+          "legendFormat": "{{ container }} target",
           "refId": "C"
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_lowerbound{resource=\"memory\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ container }} lower bound",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_upperbound{resource=\"memory\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ container }} lower bound",
+          "refId": "B"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "Memory $recommendation vs Memory Usage",
+      "title": "Memory recommendation vs Memory Usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -100,14 +134,16 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:33",
           "format": "bytes",
           "label": "Bytes",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:34",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -163,30 +199,41 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:465",
+          "alias": ""
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(vpa_status_recommendation{targetName=\"$targetName\", resource=\"memory\", recommendation=~\"$recommendation\"})",
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{resource=\"memory\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "recommendation",
+          "legendFormat": "{{container}} recommendation",
           "refId": "A"
         },
         {
-          "expr": "sum(kube_pod_container_resource_requests{resource=\"memory\", unit=\"byte\", pod=~\"$targetName(.+)\"})",
+          "exemplar": true,
+          "expr": "kube_pod_container_resource_requests{resource=\"memory\", unit=\"byte\", pod=~\"$targetName(.+)\", container=~\"$container\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "requests",
+          "legendFormat": "{{container}} requests",
           "refId": "B"
         },
         {
-          "expr": "sum(kube_pod_container_resource_limits{resource=\"memory\", unit=\"byte\", pod=~\"$targetName(.+)\"})",
+          "exemplar": true,
+          "expr": "kube_pod_container_resource_limits{resource=\"memory\", unit=\"byte\", pod=~\"$targetName(.+)\",  container=~\"$container\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "limits",
+          "legendFormat": "{{container}} limits",
           "refId": "C"
         }
       ],
@@ -210,14 +257,16 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:379",
           "format": "bytes",
           "label": "Bytes",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:380",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -273,31 +322,62 @@
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
-      "seriesOverrides": [],
+      "seriesOverrides": [
+        {
+          "$$hashKey": "object:258",
+          "alias": "/upper|lower/",
+          "dashes": true,
+          "legend": false
+        }
+      ],
       "spaceLength": 10,
       "stack": false,
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\"$targetName-(.+)\"}[$__rate_interval])) by (container) * 1000",
+          "exemplar": true,
+          "expr": "sum(rate(container_cpu_usage_seconds_total{pod=~\"$targetName-(.+)\",container=~\"$container\"}[$__rate_interval])) by (container)",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
           "legendFormat": "{{ container }} actual usage",
           "refId": "D"
         },
         {
-          "expr": "sum(vpa_status_recommendation{recommendation=~\"$recommendation\", resource=\"cpu\", targetName=\"$targetName\", container=~\"$container\"}) by (container)",
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{resource=\"cpu\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "{{ container }}-recommendation",
+          "legendFormat": "{{ container }} target",
           "refId": "C"
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_upperbound{resource=\"cpu\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ container }} upper bound",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_lowerbound{resource=\"cpu\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
+          "format": "time_series",
+          "hide": false,
+          "interval": "",
+          "intervalFactor": 1,
+          "legendFormat": "{{ container }} lower bound",
+          "refId": "B"
         }
       ],
       "thresholds": [],
       "timeFrom": null,
       "timeRegions": [],
       "timeShift": null,
-      "title": "CPU $recommendation vs CPU Usage",
+      "title": "CPU recommendation vs CPU Usage",
       "tooltip": {
         "shared": true,
         "sort": 0,
@@ -313,14 +393,16 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:238",
           "format": "short",
-          "label": "Millicores",
+          "label": "Cores",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:239",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -382,24 +464,30 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(vpa_status_recommendation{targetName=\"$targetName\", resource=\"cpu\", recommendation=~\"$recommendation\"})",
+          "exemplar": true,
+          "expr": "sum(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{resource=\"cpu\", namespace=~\"$namespace\", target_kind=~\"$targetKind\", target_name=~\"$targetName\", container=~\"$container\"}) by (container)",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "recommendation",
+          "legendFormat": "{{container}} recommendation ",
           "refId": "A"
         },
         {
-          "expr": "sum(kube_pod_container_resource_requests{resource=\"cpu\", unit=\"core\", pod=~\"$targetName(.+)\"}) * 1000",
+          "exemplar": true,
+          "expr": "kube_pod_container_resource_requests{resource=\"cpu\", unit=\"core\", pod=~\"$targetName(.+)\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "requests",
+          "legendFormat": "{{container}}  requests",
           "refId": "B"
         },
         {
-          "expr": "sum(kube_pod_container_resource_limits{resource=\"cpu\", unit=\"core\", pod=~\"$targetName(.+)\"})* 1000",
+          "exemplar": true,
+          "expr": "kube_pod_container_resource_limits{resource=\"cpu\", unit=\"core\", pod=~\"$targetName(.+)\"}",
           "format": "time_series",
+          "interval": "",
           "intervalFactor": 1,
-          "legendFormat": "limits",
+          "legendFormat": "{{container}}  limits",
           "refId": "C"
         }
       ],
@@ -423,14 +511,16 @@
       },
       "yaxes": [
         {
+          "$$hashKey": "object:282",
           "format": "short",
-          "label": "Millicores",
+          "label": "Cores",
           "logBase": 1,
           "max": null,
-          "min": null,
+          "min": "0",
           "show": true
         },
         {
+          "$$hashKey": "object:283",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -453,24 +543,71 @@
   "templating": {
     "list": [
       {
+        "allValue": ".+",
+        "current": {
+          "selected": true,
+          "tags": [],
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
+        },
+        "datasource": null,
+        "definition": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target, namespace)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": true,
+        "label": "Namespace",
+        "multi": true,
+        "name": "namespace",
+        "options": [
+          {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          {
+            "selected": false,
+            "text": "kube-system",
+            "value": "kube-system"
+          }
+        ],
+        "query": {
+          "query": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target, namespace)",
+          "refId": "StandardVariableQuery"
+        },
+        "refresh": 0,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
         "allValue": null,
         "current": {
-          "tags": [],
-          "text": "target",
-          "value": "target"
+          "selected": true,
+          "text": "StatefulSet",
+          "value": "StatefulSet"
         },
         "datasource": "prometheus",
-        "definition": "label_values(vpa_status_recommendation, recommendation)",
+        "definition": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=~\"$namespace\"}, target_kind)",
         "description": null,
         "error": null,
         "hide": 0,
         "includeAll": false,
-        "label": "Recommendation",
+        "label": "Kind",
         "multi": false,
-        "name": "recommendation",
+        "name": "targetKind",
         "options": [],
         "query": {
-          "query": "label_values(vpa_status_recommendation, recommendation)",
+          "query": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=~\"$namespace\"}, target_kind)",
           "refId": "StandardVariableQuery"
         },
         "refresh": 1,
@@ -486,43 +623,12 @@
       {
         "allValue": null,
         "current": {
-          "selected": false,
-          "text": "StatefulSet",
-          "value": "StatefulSet"
-        },
-        "datasource": "prometheus",
-        "definition": "label_values(vpa_status_recommendation, targetKind)",
-        "description": null,
-        "error": null,
-        "hide": 0,
-        "includeAll": false,
-        "label": "Kind",
-        "multi": false,
-        "name": "targetKind",
-        "options": [],
-        "query": {
-          "query": "label_values(vpa_status_recommendation, targetKind)",
-          "refId": "prometheus-targetKind-Variable-Query"
-        },
-        "refresh": 1,
-        "regex": "",
-        "skipUrlSync": false,
-        "sort": 1,
-        "tagValuesQuery": "",
-        "tags": [],
-        "tagsQuery": "",
-        "type": "query",
-        "useTags": false
-      },
-      {
-        "allValue": null,
-        "current": {
-          "tags": [],
+          "selected": true,
           "text": "etcd-main",
           "value": "etcd-main"
         },
         "datasource": "prometheus",
-        "definition": "label_values(vpa_status_recommendation{targetKind=~\"$targetKind\"}, targetName)",
+        "definition": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=~\"$namespace\", target_kind=~\"$targetKind\"}, target_name)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -532,8 +638,8 @@
         "name": "targetName",
         "options": [],
         "query": {
-          "query": "label_values(vpa_status_recommendation{targetKind=~\"$targetKind\"}, targetName)",
-          "refId": "prometheus-targetName-Variable-Query"
+          "query": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=~\"$namespace\", target_kind=~\"$targetKind\"}, target_name)",
+          "refId": "StandardVariableQuery"
         },
         "refresh": 1,
         "regex": "",
@@ -549,15 +655,16 @@
         "allValue": null,
         "current": {
           "selected": true,
+          "tags": [],
           "text": [
-            "All"
+            "etcd"
           ],
           "value": [
-            "$__all"
+            "etcd"
           ]
         },
         "datasource": "prometheus",
-        "definition": "label_values(container_memory_working_set_bytes{pod=~\"$targetName-(.+)\"}, container)",
+        "definition": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=~\"$namespace\", target_kind=~\"$targetKind\",target_name=~\"$targetName\"}, container)",
         "description": null,
         "error": null,
         "hide": 0,
@@ -567,8 +674,8 @@
         "name": "container",
         "options": [],
         "query": {
-          "query": "label_values(container_memory_working_set_bytes{pod=~\"$targetName-(.+)\"}, container)",
-          "refId": "prometheus-container-Variable-Query"
+          "query": "label_values(kube_verticalpodautoscaler_status_recommendation_containerrecommendations_target{namespace=~\"$namespace\", target_kind=~\"$targetKind\",target_name=~\"$targetName\"}, container)",
+          "refId": "StandardVariableQuery"
         },
         "refresh": 1,
         "regex": "",
@@ -583,7 +690,7 @@
     ]
   },
   "time": {
-    "from": "now-30m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
