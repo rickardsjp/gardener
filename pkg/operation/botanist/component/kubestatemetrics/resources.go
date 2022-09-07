@@ -200,7 +200,7 @@ func (k *kubeStateMetrics) reconcileDeployment(
 			v1beta1constants.LabelNetworkPolicyToSeedAPIServer: v1beta1constants.LabelNetworkPolicyAllowed,
 		})
 		args = append(args,
-			"--resources=deployments,pods,statefulsets,nodes,horizontalpodautoscalers,persistentvolumeclaims,replicasets",
+			"--resources=deployments,pods,statefulsets,nodes,verticalpodautoscalers,horizontalpodautoscalers,persistentvolumeclaims,replicasets",
 			"--metric-labels-allowlist=nodes=[*]",
 		)
 	}

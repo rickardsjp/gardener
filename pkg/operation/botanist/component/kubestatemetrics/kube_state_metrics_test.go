@@ -234,7 +234,7 @@ var _ = Describe("KubeStateMetrics", func() {
 				args = []string{
 					"--port=8080",
 					"--telemetry-port=8081",
-					"--resources=deployments,pods,statefulsets,nodes,horizontalpodautoscalers,persistentvolumeclaims,replicasets",
+					"--resources=deployments,pods,statefulsets,nodes,verticalpodautoscalers,horizontalpodautoscalers,persistentvolumeclaims,replicasets",
 					"--metric-labels-allowlist=nodes=[*]",
 				}
 				serviceAccountName = "kube-state-metrics"
