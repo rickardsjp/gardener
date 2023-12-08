@@ -143,15 +143,14 @@ var _ = Describe("Vali", func() {
 						Begin: maintenanceBegin,
 						End:   maintenanceEnd,
 					},
-					ValiImage:             valiImage,
-					CuratorImage:          curatorImage,
-					RenameLokiToValiImage: alpineImage,
-					InitLargeDirImage:     initLargeDirImage,
-					TelegrafImage:         telegrafImage,
-					KubeRBACProxyImage:    kubeRBACProxyImage,
-					PriorityClassName:     priorityClassName,
-					ClusterType:           "shoot",
-					IngressHost:           valiHost,
+					ValiImage:          valiImage,
+					CuratorImage:       curatorImage,
+					InitLargeDirImage:  initLargeDirImage,
+					TelegrafImage:      telegrafImage,
+					KubeRBACProxyImage: kubeRBACProxyImage,
+					PriorityClassName:  priorityClassName,
+					ClusterType:        "shoot",
+					IngressHost:        valiHost,
 				},
 			)
 
@@ -247,12 +246,11 @@ var _ = Describe("Vali", func() {
 						Begin: maintenanceBegin,
 						End:   maintenanceEnd,
 					},
-					ValiImage:             valiImage,
-					CuratorImage:          curatorImage,
-					RenameLokiToValiImage: alpineImage,
-					InitLargeDirImage:     initLargeDirImage,
-					PriorityClassName:     priorityClassName,
-					ClusterType:           "seed",
+					ValiImage:         valiImage,
+					CuratorImage:      curatorImage,
+					InitLargeDirImage: initLargeDirImage,
+					PriorityClassName: priorityClassName,
+					ClusterType:       "seed",
 				},
 			)
 
@@ -312,14 +310,13 @@ var _ = Describe("Vali", func() {
 				namespace,
 				fakeSecretManager,
 				Values{
-					Replicas:              1,
-					Storage:               &storage,
-					ValiImage:             valiImage,
-					CuratorImage:          curatorImage,
-					RenameLokiToValiImage: alpineImage,
-					InitLargeDirImage:     initLargeDirImage,
-					PriorityClassName:     priorityClassName,
-					ClusterType:           "seed",
+					Replicas:          1,
+					Storage:           &storage,
+					ValiImage:         valiImage,
+					CuratorImage:      curatorImage,
+					InitLargeDirImage: initLargeDirImage,
+					PriorityClassName: priorityClassName,
+					ClusterType:       "seed",
 				},
 			)
 
@@ -463,43 +460,6 @@ var _ = Describe("Vali", func() {
 
 		AfterEach(func() {
 			ctrl.Finish()
-		})
-
-		It("should patch garden/loki's PVC when new size is greater than the current one", func() {
-			valiDeployer := New(runtimeClient, gardenNamespace, nil, Values{Storage: &new200GiStorageQuantity})
-			gomock.InOrder(
-				runtimeClient.EXPECT().Get(ctx, valiPVCKey, objectOfTypePVC).DoAndReturn(funcGetValiPVC),
-				// Annotate the Vali MamangedResource with Ignore annotation
-				runtimeClient.EXPECT().Get(ctx, kubernetesutils.Key(gardenNamespace, managedResourceName), objectOfTypeMR),
-				runtimeClient.EXPECT().Patch(ctx, objectOfTypeMR, gomock.Any()).
-					Do(func(ctx context.Context, obj client.Object, _ client.Patch, _ ...client.PatchOption) {
-						Expect(obj).To(DeepEqual(skipedManagedResource))
-					}),
-				// Scale Vali StatefulSet to zero
-				sw.EXPECT().Patch(ctx, statefulset, zeroReplicaRawPatch),
-				runtimeClient.EXPECT().Get(gomock.Any(), valiStatefulSetKey, objectOfTypeSTS).DoAndReturn(funcGetScaledToZeroValiStatefulset),
-				// Path Vali PVC
-				runtimeClient.EXPECT().Patch(ctx, objectOfTypePVC, gomock.AssignableToTypeOf(patch)).DoAndReturn(funcPatchTo200GiStorage),
-				// Remove Ignore annotation form the managed resource
-				runtimeClient.EXPECT().Get(ctx, kubernetesutils.Key(gardenNamespace, managedResourceName), objectOfTypeMR),
-				runtimeClient.EXPECT().Patch(ctx, objectOfTypeMR, gomock.Any()).
-					Do(func(ctx context.Context, obj client.Object, _ client.Patch, _ ...client.PatchOption) {
-						Expect(obj).To(DeepEqual(managedResource))
-					}),
-				// Delete target managed resource
-				runtimeClient.EXPECT().Get(ctx, kubernetesutils.Key(gardenNamespace, managedResourceNameTarget), gomock.AssignableToTypeOf(&resourcesv1alpha1.ManagedResource{})),
-				runtimeClient.EXPECT().Delete(ctx, objectOfTypeSecret),
-				runtimeClient.EXPECT().Delete(ctx, &resourcesv1alpha1.ManagedResource{ObjectMeta: metav1.ObjectMeta{Name: managedResourceNameTarget, Namespace: gardenNamespace}}),
-				// Delete shoot access secrets
-				runtimeClient.EXPECT().Delete(ctx, &corev1.Secret{ObjectMeta: metav1.ObjectMeta{Name: valitailShootAccessSecretName, Namespace: gardenNamespace}}),
-				runtimeClient.EXPECT().Delete(ctx, &corev1.Secret{ObjectMeta: metav1.ObjectMeta{Name: kubeRBacProxyShootAccessSecretName, Namespace: gardenNamespace}}),
-				// Create Managed resource
-				runtimeClient.EXPECT().Get(ctx, gomock.AssignableToTypeOf(types.NamespacedName{}), objectOfTypeSecret),
-				runtimeClient.EXPECT().Update(ctx, objectOfTypeSecret),
-				runtimeClient.EXPECT().Get(ctx, kubernetesutils.Key(gardenNamespace, managedResourceName), objectOfTypeMR),
-				runtimeClient.EXPECT().Update(ctx, objectOfTypeMR),
-			)
-			Expect(valiDeployer.Deploy(ctx)).To(Succeed())
 		})
 
 		It("should delete garden/vali's PVC when new size is less than the current one", func() {
@@ -1241,30 +1201,6 @@ func getStatefulSet(isRBACProxyEnabled bool) *appsv1.StatefulSet {
 									MountPath: "/vali-init.sh",
 									SubPath:   "vali-init.sh",
 									Name:      "config",
-								},
-							},
-						},
-						{
-							Name:  "rename-loki-to-vali",
-							Image: alpineImage,
-							Command: []string{
-								"sh",
-								"-c",
-								`
-set -x
-# TODO (istvanballok): remove in release v1.77
-if [[ -d /data/loki ]]; then
-  echo "Renaming loki folder to vali"
-  time mv /data/loki /data/vali
-else
-  echo "No loki folder found"
-fi
-`,
-							},
-							VolumeMounts: []corev1.VolumeMount{
-								{
-									MountPath: "/data",
-									Name:      "vali",
 								},
 							},
 						},
