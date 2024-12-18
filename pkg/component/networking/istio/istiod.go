@@ -25,6 +25,7 @@ import (
 	"github.com/gardener/gardener/pkg/client/kubernetes"
 	"github.com/gardener/gardener/pkg/component"
 	"github.com/gardener/gardener/pkg/component/observability/monitoring/prometheus/aggregate"
+	"github.com/gardener/gardener/pkg/component/observability/monitoring/prometheus/cache"
 	monitoringutils "github.com/gardener/gardener/pkg/component/observability/monitoring/utils"
 	"github.com/gardener/gardener/pkg/controllerutils"
 	"github.com/gardener/gardener/pkg/utils/flow"
@@ -300,6 +301,33 @@ func (i *istiod) Deploy(ctx context.Context) error {
 						"process_open_fds",
 						"process_resident_memory_bytes",
 						"process_virtual_memory_bytes",
+					),
+				}},
+			},
+		}); err != nil {
+			return err
+		}
+		// Configure prometheus-cache to scrape istio network usage metrics for metering
+		if err := registry.Add(&monitoringv1.ServiceMonitor{
+			ObjectMeta: monitoringutils.ConfigObjectMeta("istio-ingressgateway", v1beta1constants.IstioSystemNamespace, cache.Label),
+			Spec: monitoringv1.ServiceMonitorSpec{
+				Selector:          metav1.LabelSelector{MatchLabels: map[string]string{v1beta1constants.LabelApp: "istio-ingressgateway"}},
+				NamespaceSelector: monitoringv1.NamespaceSelector{Any: true},
+				Endpoints: []monitoringv1.Endpoint{{
+					Path: "/stats/prometheus",
+					Port: "tls-tunnel",
+					RelabelConfigs: []monitoringv1.RelabelConfig{{
+						SourceLabels: []monitoringv1.LabelName{"__meta_kubernetes_pod_ip"},
+						Action:       "replace",
+						TargetLabel:  "__address__",
+						Regex:        `(.+)`,
+						Replacement:  ptr.To("${1}:15020"),
+					}},
+					MetricRelabelConfigs: monitoringutils.StandardMetricRelabelConfig(
+						"istio_request_bytes_sum",
+						"istio_response_bytes_sum",
+						"istio_tcp_received_bytes_total",
+						"istio_tcp_sent_bytes_total",
 					),
 				}},
 			},
