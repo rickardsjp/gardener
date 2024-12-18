@@ -308,6 +308,26 @@ func (i *istiod) Deploy(ctx context.Context) error {
 			return err
 		}
 		// Configure prometheus-cache to scrape istio network usage metrics for metering
+
+		relabelConfig := monitoringutils.StandardMetricRelabelConfig(
+			"istio_request_bytes_sum",
+			"istio_response_bytes_sum",
+			"istio_tcp_received_bytes_total",
+			"istio_tcp_sent_bytes_total",
+		)
+		// relabel namespace to istio_namespace
+		relabelConfig = append(relabelConfig, monitoringv1.RelabelConfig{
+			SourceLabels: []monitoringv1.LabelName{"namespace"},
+			Action:       "replace",
+			TargetLabel:  "istio_namespace",
+		})
+		// relabel destination_service_namespace to namespace
+		relabelConfig = append(relabelConfig, monitoringv1.RelabelConfig{
+			SourceLabels: []monitoringv1.LabelName{"destination_service_namespace"},
+			Action:       "replace",
+			TargetLabel:  "namespace",
+		})
+
 		if err := registry.Add(&monitoringv1.ServiceMonitor{
 			ObjectMeta: monitoringutils.ConfigObjectMeta("istio-ingressgateway", v1beta1constants.IstioSystemNamespace, cache.Label),
 			Spec: monitoringv1.ServiceMonitorSpec{
@@ -323,12 +343,7 @@ func (i *istiod) Deploy(ctx context.Context) error {
 						Regex:        `(.+)`,
 						Replacement:  ptr.To("${1}:15020"),
 					}},
-					MetricRelabelConfigs: monitoringutils.StandardMetricRelabelConfig(
-						"istio_request_bytes_sum",
-						"istio_response_bytes_sum",
-						"istio_tcp_received_bytes_total",
-						"istio_tcp_sent_bytes_total",
-					),
+					MetricRelabelConfigs: relabelConfig,
 				}},
 			},
 		}); err != nil {
