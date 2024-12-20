@@ -161,33 +161,33 @@ spec:
       expr: |2
               sum by (namespace) (rate(istio_tcp_sent_bytes_total[5m]))
             + on (namespace) group_right
-              _namespace_to_shoot_uid_and_date
+              _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
           or
-            _namespace_to_shoot_uid_and_date
+            _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
 
     - record: metering:network_gateway_tcp_received:sum_by_namespace
       expr: |2
               sum by (namespace) (rate(istio_tcp_received_bytes_total[5m]))
             + on (namespace) group_right
-              _namespace_to_shoot_uid_and_date
+              _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
           or
-            _namespace_to_shoot_uid_and_date
+            _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
 
     - record: metering:network_gateway_vpn_sent:sum_by_namespace
       expr: |2
               sum by (namespace) (rate(istio_request_bytes_sum[5m]))
             + on (namespace) group_right
-              _namespace_to_shoot_uid_and_date
+              _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
           or
-            _namespace_to_shoot_uid_and_date
+            _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
 
     - record: metering:network_gateway_vpn_received:sum_by_namespace
       expr: |2
               sum by (namespace) (rate(istio_response_bytes_sum[5m]))
             + on (namespace) group_right
-              _namespace_to_shoot_uid_and_date
+              _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
           or
-            _namespace_to_shoot_uid_and_date
+            _namespace_to_shoot_uid_and_date{namespace=~"shoot--.*|garden"}
 
     - record: metering:persistent_volume_claims:sum_by_namespace
       expr: |2
