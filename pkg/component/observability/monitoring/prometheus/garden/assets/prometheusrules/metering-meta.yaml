@@ -427,6 +427,117 @@ spec:
           + on (year, month) group_left ()
             _year_month2
 
+  # - metering  :network_gateway_tcp_sent       :sum_by_namespace :meta  :sum_over_time
+  # - metering  :network_gateway_tcp_sent       :sum_by_namespace :meta  :avg_over_time
+  # - metering  :network_gateway_tcp_sent       :sum_by_namespace :meta  :avg_over_time   :this_month
+  # - metering  :network_gateway_tcp_received   :sum_by_namespace :meta  :sum_over_time
+  # - metering  :network_gateway_tcp_received   :sum_by_namespace :meta  :avg_over_time
+  # - metering  :network_gateway_tcp_received   :sum_by_namespace :meta  :avg_over_time   :this_month
+  # - metering  :network_gateway_vpn_sent       :sum_by_namespace :meta  :sum_over_time
+  # - metering  :network_gateway_vpn_sent       :sum_by_namespace :meta  :avg_over_time
+  # - metering  :network_gateway_vpn_sent       :sum_by_namespace :meta  :avg_over_time   :this_month
+  # - metering  :network_gateway_vpn_received   :sum_by_namespace :meta  :sum_over_time
+  # - metering  :network_gateway_vpn_received   :sum_by_namespace :meta  :avg_over_time
+  # - metering  :network_gateway_vpn_received   :sum_by_namespace :meta  :avg_over_time   :this_month
+
+    - record: metering:network_gateway_tcp_sent:sum_by_namespace:meta:sum_over_time
+      expr: |2
+          metering:network_gateway_tcp_sent:sum_by_namespace:meta
+        +
+          (
+              last_over_time(metering:network_gateway_tcp_sent:sum_by_namespace:meta:sum_over_time[30m])
+            or
+              metering:network_gateway_tcp_sent:sum_by_namespace:meta * 0
+          )
+
+    - record: metering:network_gateway_tcp_sent:sum_by_namespace:meta:avg_over_time
+      expr: |2
+          metering:network_gateway_tcp_sent:sum_by_namespace:meta:sum_over_time * 60
+        /
+          (metering:memory_usage_seconds:meta != 0)
+
+    - record: metering:network_gateway_tcp_sent:sum_by_namespace:meta:avg_over_time:this_month
+      expr: |2
+          metering:network_gateway_tcp_sent:sum_by_namespace:meta:avg_over_time
+        or
+            last_over_time(metering:network_gateway_tcp_sent:sum_by_namespace:meta:avg_over_time:this_month[30m])
+          + on (year, month) group_left ()
+            _year_month2
+
+    - record: metering:network_gateway_tcp_received:sum_by_namespace:meta:sum_over_time
+      expr: |2
+          metering:network_gateway_tcp_received:sum_by_namespace:meta
+        +
+          (
+              last_over_time(metering:network_gateway_tcp_received:sum_by_namespace:meta:sum_over_time[30m])
+            or
+              metering:network_gateway_tcp_received:sum_by_namespace:meta * 0
+          )
+
+    - record: metering:network_gateway_tcp_received:sum_by_namespace:meta:avg_over_time
+      expr: |2
+          metering:network_gateway_tcp_received:sum_by_namespace:meta:sum_over_time * 60
+        /
+          (metering:memory_usage_seconds:meta != 0)
+
+    - record: metering:network_gateway_tcp_received:sum_by_namespace:meta:avg_over_time:this_month
+      expr: |2
+          metering:network_gateway_tcp_received:sum_by_namespace:meta:avg_over_time
+        or
+            last_over_time(metering:network_gateway_tcp_received:sum_by_namespace:meta:avg_over_time:this_month[30m])
+          + on (year, month) group_left ()
+            _year_month2
+
+    - record: metering:network_gateway_vpn_sent:sum_by_namespace:meta:sum_over_time
+      expr: |2
+          metering:network_gateway_vpn_sent:sum_by_namespace:meta
+        +
+          (
+              last_over_time(metering:network_gateway_vpn_sent:sum_by_namespace:meta:sum_over_time[30m])
+            or
+              metering:network_gateway_vpn_sent:sum_by_namespace:meta * 0
+          )
+
+    - record: metering:network_gateway_vpn_sent:sum_by_namespace:meta:avg_over_time
+      expr: |2
+          metering:network_gateway_vpn_sent:sum_by_namespace:meta:sum_over_time * 60
+        /
+          (metering:memory_usage_seconds:meta != 0)
+
+    - record: metering:network_gateway_vpn_sent:sum_by_namespace:meta:avg_over_time:this_month
+      expr: |2
+          metering:network_gateway_vpn_sent:sum_by_namespace:meta:avg_over_time
+        or
+            last_over_time(metering:network_gateway_vpn_sent:sum_by_namespace:meta:avg_over_time:this_month[30m])
+          + on (year, month) group_left ()
+            _year_month2
+
+    - record: metering:network_gateway_vpn_received:sum_by_namespace:meta:sum_over_time
+      expr: |2
+          metering:network_gateway_vpn_received:sum_by_namespace:meta
+        +
+          (
+              last_over_time(metering:network_gateway_vpn_received:sum_by_namespace:meta:sum_over_time[30m])
+            or
+              metering:network_gateway_vpn_received:sum_by_namespace:meta * 0
+          )
+
+    - record: metering:network_gateway_vpn_received:sum_by_namespace:meta:avg_over_time
+      expr: |2
+          metering:network_gateway_vpn_received:sum_by_namespace:meta:sum_over_time * 60
+        /
+          (metering:memory_usage_seconds:meta != 0)
+
+    - record: metering:network_gateway_vpn_received:sum_by_namespace:meta:avg_over_time:this_month
+      expr: |2
+          metering:network_gateway_vpn_received:sum_by_namespace:meta:avg_over_time
+        or
+            last_over_time(metering:network_gateway_vpn_received:sum_by_namespace:meta:avg_over_time:this_month[30m])
+          + on (year, month) group_left ()
+            _year_month2
+
+
+
   # - metering  :node_capacity             :sum_by_instance_type   :sum_over_time
   # - metering  :node_capacity             :sum_by_instance_type   :count_over_time
   # - metering  :node_capacity             :sum_by_instance_type   :count_over_time :this_month
