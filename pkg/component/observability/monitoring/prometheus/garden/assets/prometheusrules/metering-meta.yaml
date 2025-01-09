@@ -53,15 +53,19 @@ spec:
         or
           last_over_time(garden_shoot_info:timestamp:this_month[30m]) + on (year, month) group_left () _year_month2
 
-  # - metering :cpu_requests             :sum_by_namespace :meta
-  # - metering :cpu_usage                :sum_by_namespace :meta
-  # - metering :memory_requests          :sum_by_namespace :meta
-  # - metering :memory_usage             :sum_by_namespace :meta
-  # - metering :network_receive          :sum_by_namespace :meta
-  # - metering :network_transmit         :sum_by_namespace :meta
-  # - metering :persistent_volume_claims :sum_by_namespace :meta
-  # - metering :persistent_volume_usage  :sum_by_namespace :meta
-  # - metering :working_set_memory       :sum_by_namespace :meta
+  # - metering :cpu_requests                  :sum_by_namespace :meta
+  # - metering :cpu_usage                     :sum_by_namespace :meta
+  # - metering :memory_requests               :sum_by_namespace :meta
+  # - metering :memory_usage                  :sum_by_namespace :meta
+  # - metering :network_receive               :sum_by_namespace :meta
+  # - metering :network_transmit              :sum_by_namespace :meta
+  # - metering :persistent_volume_claims      :sum_by_namespace :meta
+  # - metering :persistent_volume_usage       :sum_by_namespace :meta
+  # - metering :working_set_memory            :sum_by_namespace :meta
+  # - metering :network_gateway_tcp_sent      :sum_by_namespace :meta
+  # - metering :network_gateway_tcp_received  :sum_by_namespace :meta
+  # - metering :network_gateway_vpn_sent      :sum_by_namespace :meta
+  # - metering :network_gateway_vpn_received  :sum_by_namespace :meta
 
     - record: metering:cpu_requests:sum_by_namespace:meta
       expr: |2
@@ -114,6 +118,30 @@ spec:
     - record: metering:working_set_memory:sum_by_namespace:meta
       expr: |2
           metering:working_set_memory:sum_by_namespace{shoot_uid!=""}
+        + on (shoot_uid, seed) group_left (project, name, failure_tolerance, version, cost_object, cost_object_owner, iaas, region, seed_iaas, seed_region, is_seed, timestamp)
+          garden_shoot_info:timestamp
+
+    - record: metering:network_gateway_tcp_sent:sum_by_namespace:meta
+      expr: |2
+          metering:network_gateway_tcp_sent:sum_by_namespace{shoot_uid!=""}
+        + on (shoot_uid, seed) group_left (project, name, failure_tolerance, version, cost_object, cost_object_owner, iaas, region, seed_iaas, seed_region, is_seed, timestamp)
+          garden_shoot_info:timestamp
+
+    - record: metering:network_gateway_tcp_received:sum_by_namespace:meta
+      expr: |2
+          metering:network_gateway_tcp_received:sum_by_namespace{shoot_uid!=""}
+        + on (shoot_uid, seed) group_left (project, name, failure_tolerance, version, cost_object, cost_object_owner, iaas, region, seed_iaas, seed_region, is_seed, timestamp)
+          garden_shoot_info:timestamp
+
+    - record: metering:network_gateway_vpn_sent:sum_by_namespace:meta
+      expr: |2
+          metering:network_gateway_vpn_sent:sum_by_namespace{shoot_uid!=""}
+        + on (shoot_uid, seed) group_left (project, name, failure_tolerance, version, cost_object, cost_object_owner, iaas, region, seed_iaas, seed_region, is_seed, timestamp)
+          garden_shoot_info:timestamp
+
+    - record: metering:network_gateway_vpn_received:sum_by_namespace:meta
+      expr: |2
+          metering:network_gateway_vpn_received:sum_by_namespace{shoot_uid!=""}
         + on (shoot_uid, seed) group_left (project, name, failure_tolerance, version, cost_object, cost_object_owner, iaas, region, seed_iaas, seed_region, is_seed, timestamp)
           garden_shoot_info:timestamp
 
