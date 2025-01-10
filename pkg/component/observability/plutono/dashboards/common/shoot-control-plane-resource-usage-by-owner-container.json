@@ -16,8 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 16,
-  "iteration": 1668087109962,
+  "iteration": 1736263540671,
   "links": [],
   "panels": [
     {
@@ -67,16 +66,14 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "name"
       },
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "targets": [
         {
           "exemplar": true,
@@ -128,16 +125,14 @@
         "justifyMode": "center",
         "orientation": "vertical",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "value_and_name"
       },
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "targets": [
         {
           "exemplar": true,
@@ -223,7 +218,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": "/Network/"
+              "options": "/[N|n]etwork/"
             },
             "properties": [
               {
@@ -273,16 +268,14 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "targets": [
         {
           "exemplar": true,
@@ -355,6 +348,15 @@
           "interval": "",
           "legendFormat": "Network",
           "refId": "E"
+        },
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_vpn_sent:sum_by_namespace:avg_over_time{shoot_uid!=\"\",namespace=~\"$namespace\"} + metering:network_gateway_tcp_sent:sum_by_namespace:avg_over_time{shoot_uid!=\"\",namespace=~\"$namespace\"}",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Control plane network egress",
+          "refId": "H"
         }
       ],
       "timeFrom": null,
@@ -425,7 +427,7 @@
           {
             "matcher": {
               "id": "byRegexp",
-              "options": "/Network/"
+              "options": "/[N|n]etwork/"
             },
             "properties": [
               {
@@ -475,16 +477,14 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
+          "calcs": ["lastNotNull"],
           "fields": "",
           "values": false
         },
         "text": {},
         "textMode": "auto"
       },
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "targets": [
         {
           "exemplar": true,
@@ -557,6 +557,15 @@
           "interval": "",
           "legendFormat": "Network",
           "refId": "E"
+        },
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_tcp_sent:sum_by_namespace{shoot_uid!=\"\",namespace=~\"$namespace\"} + metering:network_gateway_vpn_sent:sum_by_namespace{shoot_uid!=\"\",namespace=~\"$namespace\"}",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Control plane network egress",
+          "refId": "A"
         }
       ],
       "timeFrom": null,
@@ -620,7 +629,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -730,7 +739,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -853,7 +862,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -962,7 +971,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1071,7 +1080,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1194,7 +1203,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1304,7 +1313,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1373,13 +1382,217 @@
       }
     },
     {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 6,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 53
+      },
+      "hiddenSeries": false,
+      "id": 35,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 3,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.35",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_tcp_sent:sum_by_namespace",
+          "interval": "",
+          "legendFormat": "Sent TCP network (egress traffic)",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_tcp_received:sum_by_namespace",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "Received TCP network (ingress traffic)",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Shoot Control Plane TCP traffic",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 6,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 53
+      },
+      "hiddenSeries": false,
+      "id": 36,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 3,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.35",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_vpn_sent:sum_by_namespace",
+          "interval": "",
+          "legendFormat": "VPN network sent (egress traffic)",
+          "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_vpn_received:sum_by_namespace",
+          "hide": false,
+          "interval": "",
+          "legendFormat": "VPN network received (ingress traffic)",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Shoot Control Plane VPN traffic",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
       "collapsed": false,
       "datasource": null,
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 53
+        "y": 61
       },
       "id": 33,
       "panels": [],
@@ -1403,7 +1616,7 @@
         "h": 13,
         "w": 12,
         "x": 0,
-        "y": 54
+        "y": 62
       },
       "hiddenSeries": false,
       "id": 19,
@@ -1427,7 +1640,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1512,7 +1725,7 @@
         "h": 13,
         "w": 12,
         "x": 12,
-        "y": 54
+        "y": 62
       },
       "hiddenSeries": false,
       "id": 28,
@@ -1537,7 +1750,7 @@
         "alertThreshold": true
       },
       "percentage": false,
-      "pluginVersion": "7.5.17",
+      "pluginVersion": "7.5.35",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1615,9 +1828,9 @@
       {
         "allValue": ".*",
         "current": {
-          "selected": true,
-          "text": "shoot--local--local",
-          "value": "shoot--local--local"
+          "selected": false,
+          "text": "shoot-control-plane",
+          "value": "shoot-control-plane"
         },
         "datasource": null,
         "definition": "label_values(metering:working_set_memory:sum_by_namespace{shoot_uid!=\"\"}, namespace)",
@@ -1647,12 +1860,8 @@
         "allValue": ".*",
         "current": {
           "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
+          "text": ["All"],
+          "value": ["$__all"]
         },
         "datasource": null,
         "definition": "label_values(metering:working_set_memory:sum_by_namespace_owner_container{shoot_uid!=\"\",namespace=~\"$namespace\"}, owner)",
@@ -1682,12 +1891,8 @@
         "allValue": ".*",
         "current": {
           "selected": true,
-          "text": [
-            "All"
-          ],
-          "value": [
-            "$__all"
-          ]
+          "text": ["All"],
+          "value": ["$__all"]
         },
         "datasource": null,
         "definition": "label_values(metering:working_set_memory:sum_by_namespace_owner_container{shoot_uid!=\"\",namespace=~\"$namespace\",owner=~\"$owner\"}, container)",
