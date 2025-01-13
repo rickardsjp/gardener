@@ -7,6 +7,26 @@ spec:
   - name: recording-rules.rules
     rules:
 
+    # Network topology recording rules
+
+    - record: network_topology_regional
+      expr: garden_shoot_info and on (shoot_uid, name, region, iaas) label_replace(garden_shoot_info, "region", "$1", "seed_region", "(.*)")
+      labels:
+        network_topology: "regional"
+
+    - record: network_topology_interregional
+      expr: garden_shoot_info and on (shoot_uid, name, iaas) (label_replace(garden_shoot_info, "iaas", "$1", "seed_iaas", "(.*)") unless (garden_shoot_info and on (shoot_uid, name, region, iaas) label_replace(garden_shoot_info, "region", "$1", "seed_region", "(.*)")))
+      labels:
+        network_topology: "interregional"
+
+    - record: network_topology_internet
+      expr: garden_shoot_info unless on (shoot_uid, name, iaas) label_replace(garden_shoot_info, "iaas", "$1", "seed_iaas", "(.*)")
+      labels:
+        network_topology: "internet"
+
+    - record: garden_shoot_info_with_network_topology
+      expr: garden_shoot_info + on (shoot_uid) group_left (network_topology) (network_topology_internet or network_topology_interregional or network_topology_regional)
+
     # detect an issue when the persistent volume is not mounted properly, and instead the local disk is used
     - record: seed:persistentvolume:inconsistent_size
       expr: abs(1 - kubelet_volume_stats_capacity_bytes / on(namespace, persistentvolumeclaim) kube_persistentvolumeclaim_resource_requests_storage_bytes) > 0.05
