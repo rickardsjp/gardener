@@ -540,7 +540,7 @@ func (r *Reconciler) newCachePrometheus(log logr.Logger, seed *seedpkg.Seed, isM
 		RetentionSize:     "5GB",
 		AdditionalPodLabels: map[string]string{
 			"networking.resources.gardener.cloud/to-" + v1beta1constants.LabelNetworkPolicyIstioIngressNamespaceAlias + "-" + v1beta1constants.LabelNetworkPolicySeedScrapeTargets: v1beta1constants.LabelNetworkPolicyAllowed,
-			"networking.resources.gardener.cloud/to-" + v1beta1constants.LabelNetworkPolicySeedScrapeTargets: v1beta1constants.LabelNetworkPolicyAllowed,
+			"networking.resources.gardener.cloud/to-" + v1beta1constants.LabelNetworkPolicySeedScrapeTargets:                                                                       v1beta1constants.LabelNetworkPolicyAllowed,
 		},
 		CentralConfigs: prometheus.CentralConfigs{
 			AdditionalScrapeConfigs: additionalScrapeConfigs,
