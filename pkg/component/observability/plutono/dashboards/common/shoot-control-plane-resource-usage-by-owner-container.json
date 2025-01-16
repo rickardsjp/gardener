@@ -16,7 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "iteration": 1736263540671,
+  "iteration": 1737053306984,
   "links": [],
   "panels": [
     {
@@ -357,6 +357,15 @@
           "interval": "",
           "legendFormat": "Control plane network egress",
           "refId": "H"
+        },
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_vpn_received:sum_by_namespace:avg_over_time{shoot_uid!=\"\",namespace=~\"$namespace\"} + metering:network_gateway_tcp_received:sum_by_namespace:avg_over_time{shoot_uid!=\"\",namespace=~\"$namespace\"}",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Control plane network ingress",
+          "refId": "J"
         }
       ],
       "timeFrom": null,
@@ -566,6 +575,15 @@
           "interval": "",
           "legendFormat": "Control plane network egress",
           "refId": "A"
+        },
+        {
+          "exemplar": true,
+          "expr": "metering:network_gateway_tcp_received:sum_by_namespace{shoot_uid!=\"\",namespace=~\"$namespace\"} + metering:network_gateway_vpn_received:sum_by_namespace{shoot_uid!=\"\",namespace=~\"$namespace\"}",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "Control plane network ingress",
+          "refId": "H"
         }
       ],
       "timeFrom": null,
@@ -599,8 +617,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -623,7 +641,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -709,8 +727,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -733,7 +751,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -832,8 +850,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 8,
@@ -856,7 +874,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -941,8 +959,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 8,
@@ -965,7 +983,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -1050,8 +1068,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 8,
@@ -1074,7 +1092,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -1173,8 +1191,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -1197,7 +1215,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -1282,8 +1300,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -1307,7 +1325,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -1462,7 +1480,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:114",
+          "format": "binBps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1470,6 +1489,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:115",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1564,7 +1584,8 @@
       },
       "yaxes": [
         {
-          "format": "short",
+          "$$hashKey": "object:167",
+          "format": "binBps",
           "label": null,
           "logBase": 1,
           "max": null,
@@ -1572,6 +1593,7 @@
           "show": true
         },
         {
+          "$$hashKey": "object:168",
           "format": "short",
           "label": null,
           "logBase": 1,
@@ -1610,8 +1632,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -1634,7 +1656,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
@@ -1719,8 +1741,8 @@
         "defaults": {},
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
+      "fill": 1,
+      "fillGradient": 6,
       "gridPos": {
         "h": 13,
         "w": 12,
@@ -1744,7 +1766,7 @@
         "values": true
       },
       "lines": true,
-      "linewidth": 1,
+      "linewidth": 3,
       "nullPointMode": "null",
       "options": {
         "alertThreshold": true
