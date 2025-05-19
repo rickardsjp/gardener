@@ -757,11 +757,17 @@ func (r *Reconciler) newPrometheusOperator() (component.DeployWaiter, error) {
 }
 
 func (r *Reconciler) newPersesOperator() (component.DeployWaiter, error) {
-	return sharedcomponent.NewPersesOperator(
-		r.SeedClientSet.Client(),
-		r.GardenNamespace,
-		v1beta1constants.PriorityClassNameSeedSystem600,
-	)
+	var deployer []component.Deployer
+	persesOperator, err := sharedcomponent.NewPersesOperator(r.SeedClientSet.Client(), r.GardenNamespace, v1beta1constants.PriorityClassNameSeedSystem600)
+	if err != nil {
+		return nil, err
+	}
+	if features.DefaultFeatureGate.Enabled(features.Perses) {
+		deployer = append(deployer, persesOperator)
+	} else {
+		deployer = append(deployer, component.OpDestroy(persesOperator))
+	}
+	return component.OpWait(deployer...), nil
 }
 
 func (r *Reconciler) newFluentOperator() (component.DeployWaiter, error) {

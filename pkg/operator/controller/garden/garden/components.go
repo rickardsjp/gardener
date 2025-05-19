@@ -1462,11 +1462,17 @@ func (r *Reconciler) newBlackboxExporter(garden *operatorv1alpha1.Garden, secret
 }
 
 func (r *Reconciler) newPersesOperator() (component.DeployWaiter, error) {
-	return sharedcomponent.NewPersesOperator(
-		r.RuntimeClientSet.Client(),
-		r.GardenNamespace,
-		v1beta1constants.PriorityClassNameGardenSystem100,
-	)
+	var deployer []component.Deployer
+	persesOperator, err := sharedcomponent.NewPersesOperator(r.RuntimeClientSet.Client(), r.GardenNamespace, v1beta1constants.PriorityClassNameGardenSystem100)
+	if err != nil {
+		return nil, err
+	}
+	if features.DefaultFeatureGate.Enabled(features.Perses) {
+		deployer = append(deployer, persesOperator)
+	} else {
+		deployer = append(deployer, component.OpDestroy(persesOperator))
+	}
+	return component.OpWait(deployer...), nil
 }
 
 func (r *Reconciler) newGardenerDiscoveryServer(

@@ -61,7 +61,6 @@ import (
 	"github.com/gardener/gardener/pkg/component/shared"
 	"github.com/gardener/gardener/pkg/controllerutils"
 	"github.com/gardener/gardener/pkg/extensions"
-	"github.com/gardener/gardener/pkg/features"
 	gardenletconfigv1alpha1 "github.com/gardener/gardener/pkg/gardenlet/apis/config/v1alpha1"
 	"github.com/gardener/gardener/pkg/utils"
 	"github.com/gardener/gardener/pkg/utils/flow"
@@ -582,9 +581,8 @@ func (r *Reconciler) reconcile(
 			Fn:   c.plutono.Deploy,
 		})
 		_ = g.Add(flow.Task{
-			Name:   "Deploying perses-operator",
-			Fn:     c.persesOperator.Deploy,
-			SkipIf: !features.DefaultFeatureGate.Enabled(features.Perses),
+			Name: "Deploying perses-operator",
+			Fn:   c.persesOperator.Deploy,
 		})
 	)
 
@@ -627,9 +625,8 @@ func (r *Reconciler) runRuntimeSetupFlow(ctx context.Context, log logr.Logger, g
 			Fn:   component.OpWait(c.prometheusCRD).Deploy,
 		})
 		_ = g.Add(flow.Task{
-			Name:   "Deploying custom resource definitions for perses-operator",
-			Fn:     component.OpWait(c.persesCRD).Deploy,
-			SkipIf: !features.DefaultFeatureGate.Enabled(features.Perses),
+			Name: "Deploying custom resource definitions for perses-operator",
+			Fn:   component.OpWait(c.persesCRD).Deploy,
 		})
 		_ = g.Add(flow.Task{
 			Name: "Deploying custom resource definitions for extensions",
