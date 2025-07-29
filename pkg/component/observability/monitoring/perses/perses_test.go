@@ -6,14 +6,16 @@ package perses_test
 
 import (
 	"context"
-	gomegatypes "github.com/onsi/gomega/types"
-	"k8s.io/utils/ptr"
-
+	"fmt"
 	. "github.com/onsi/ginkgo/v2"
 	. "github.com/onsi/gomega"
+	gomegatypes "github.com/onsi/gomega/types"
+	persesv1alpha1 "github.com/perses/perses-operator/api/v1alpha1"
+	"github.com/perses/perses/pkg/model/api/config"
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	utilruntime "k8s.io/apimachinery/pkg/util/runtime"
+	"k8s.io/utils/ptr"
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	fakeclient "sigs.k8s.io/controller-runtime/pkg/client/fake"
 
@@ -46,6 +48,8 @@ var _ = Describe("Perses", func() {
 
 		managedResource       *resourcesv1alpha1.ManagedResource
 		managedResourceSecret *corev1.Secret
+
+		perses *persesv1alpha1.Perses
 	)
 
 	BeforeEach(func() {
@@ -63,6 +67,8 @@ var _ = Describe("Perses", func() {
 			&retry.UntilTimeout, fakeOps.UntilTimeout,
 		))
 
+		consistOf = NewManagedResourceConsistOfObjectsMatcher(fakeClient)
+
 		managedResource = &resourcesv1alpha1.ManagedResource{
 			ObjectMeta: metav1.ObjectMeta{
 				Name:      managedResourceName,
@@ -71,8 +77,40 @@ var _ = Describe("Perses", func() {
 		}
 		managedResourceSecret = &corev1.Secret{
 			ObjectMeta: metav1.ObjectMeta{
-				Name:      managedResourceName,
+				Name:      "managedresource-" + managedResource.Name,
 				Namespace: namespace,
+			},
+		}
+
+		perses = &persesv1alpha1.Perses{
+			TypeMeta: metav1.TypeMeta{
+				Kind:       "Perses",
+				APIVersion: "perses.dev/v1alpha1",
+			},
+			ObjectMeta: metav1.ObjectMeta{
+				Name:      name,
+				Namespace: namespace,
+			},
+			Spec: persesv1alpha1.PersesSpec{
+				Metadata: &persesv1alpha1.Metadata{
+					Labels: map[string]string{
+						"instance": "perses-test",
+					},
+				},
+				Config: persesv1alpha1.PersesConfig{
+					Config: config.Config{
+						Database: config.Database{
+							File: &config.File{
+								Folder:    "/perses",
+								Extension: "yaml",
+							},
+						},
+						EphemeralDashboard: config.EphemeralDashboard{
+							Enable: false,
+						},
+					},
+				},
+				ContainerPort: 8080,
 			},
 		}
 	})
@@ -89,8 +127,9 @@ var _ = Describe("Perses", func() {
 
 				Expect(fakeClient.Create(ctx, &resourcesv1alpha1.ManagedResource{
 					ObjectMeta: metav1.ObjectMeta{
-						Name:      managedResourceName,
-						Namespace: namespace,
+						Name:       managedResourceName,
+						Namespace:  namespace,
+						Generation: 1,
 					},
 					Status: healthyManagedResourceStatus,
 				})).To(Succeed())
@@ -107,13 +146,13 @@ var _ = Describe("Perses", func() {
 						ResourceVersion: "2",
 						Generation:      1,
 						Labels: map[string]string{
-							"gardener.cloud/role":                "seed-system-component",
-							"care.gardener.cloud/condition-type": "ObservabilityComponentsHealthy",
+							"gardener.cloud/role": "seed-system-component",
 						},
 					},
 					Spec: resourcesv1alpha1.ManagedResourceSpec{
-						Class:      ptr.To("seed"),
-						SecretRefs: []corev1.LocalObjectReference{{Name: managedResource.Spec.SecretRefs[0].Name}},
+						Class:       ptr.To("seed"),
+						KeepObjects: ptr.To(false),
+						SecretRefs:  []corev1.LocalObjectReference{{Name: managedResource.Spec.SecretRefs[0].Name}},
 					},
 					Status: healthyManagedResourceStatus,
 				}
@@ -128,8 +167,12 @@ var _ = Describe("Perses", func() {
 				Expect(managedResourceSecret.Labels["resources.gardener.cloud/garbage-collectable-reference"]).To(Equal("true"))
 			})
 
+			fmt.Println(managedResource)
+
 			It("should successfully deploy all resources", func() {
-				Expect(managedResource).To(consistOf())
+				Expect(managedResource).To(consistOf(
+					perses,
+				))
 			})
 		})
 	})
