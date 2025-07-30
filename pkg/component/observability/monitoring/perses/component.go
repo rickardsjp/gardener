@@ -15,6 +15,11 @@ import (
 	"github.com/gardener/gardener/pkg/utils/managedresources"
 )
 
+const (
+	ServiceName = "perses"
+	Port        = 8080
+)
+
 // Values contains configuration values for the Perses resources
 type Values struct {
 	// Name is the name of the perses instance and the ManagedResource

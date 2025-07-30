@@ -7,10 +7,7 @@ package perses
 import (
 	persesv1alpha1 "github.com/perses/perses-operator/api/v1alpha1"
 	"github.com/perses/perses/pkg/model/api/config"
-	//corev1 "k8s.io/api/core/v1"
-	//"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-	//"k8s.io/apimachinery/pkg/util/intstr"
 )
 
 func (p *perses) perses() *persesv1alpha1.Perses {

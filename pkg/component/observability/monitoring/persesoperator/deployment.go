@@ -15,7 +15,9 @@ import (
 	"k8s.io/utils/ptr"
 
 	v1beta1constants "github.com/gardener/gardener/pkg/apis/core/v1beta1/constants"
+	"github.com/gardener/gardener/pkg/component/observability/monitoring/perses"
 	"github.com/gardener/gardener/pkg/utils"
+	gardenerutils "github.com/gardener/gardener/pkg/utils/gardener"
 )
 
 const (
@@ -38,8 +40,9 @@ func (p *persesOperator) deployment() *appsv1.Deployment {
 			Template: corev1.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
 					Labels: utils.MergeStringMaps(GetLabels(), map[string]string{
-						v1beta1constants.LabelNetworkPolicyToDNS:              v1beta1constants.LabelNetworkPolicyAllowed,
-						v1beta1constants.LabelNetworkPolicyToRuntimeAPIServer: v1beta1constants.LabelNetworkPolicyAllowed,
+						v1beta1constants.LabelNetworkPolicyToDNS:                          v1beta1constants.LabelNetworkPolicyAllowed,
+						v1beta1constants.LabelNetworkPolicyToRuntimeAPIServer:             v1beta1constants.LabelNetworkPolicyAllowed,
+						gardenerutils.NetworkPolicyLabel(perses.ServiceName, perses.Port): v1beta1constants.LabelNetworkPolicyAllowed,
 					}),
 				},
 				Spec: corev1.PodSpec{
