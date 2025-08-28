@@ -144,6 +144,10 @@ func (r *Reconciler) runDeleteSeedFlow(
 			Name: "Destroying AlertManager",
 			Fn:   c.alertManager.Destroy,
 		})
+		destroySeedPerses = g.Add(flow.Task{
+			Name: "Destroying seed Perses",
+			Fn:   c.seedPerses.Destroy,
+		})
 		destroyClusterAutoscaler = g.Add(flow.Task{
 			Name: "Destroying cluster-autoscaler resources",
 			Fn:   component.OpDestroyAndWait(c.clusterAutoscaler).Destroy,
@@ -251,6 +255,7 @@ func (r *Reconciler) runDeleteSeedFlow(
 			destroySeedPrometheus,
 			destroyAggregatePrometheus,
 			destroyAlertManager,
+			destroySeedPerses,
 			destroyNginxIngress,
 			destroyClusterAutoscaler,
 			destroyDWDWeeder,

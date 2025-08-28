@@ -8,6 +8,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/gardener/gardener/pkg/component/observability/monitoring/perses"
 	"slices"
 	"strings"
 	"time"
@@ -144,6 +145,7 @@ type components struct {
 	prometheusLongTerm            prometheus.Interface
 	blackboxExporter              component.DeployWaiter
 	persesOperator                component.DeployWaiter
+	gardenPerses                  component.DeployWaiter
 }
 
 func (r *Reconciler) instantiateComponents(
@@ -346,6 +348,10 @@ func (r *Reconciler) instantiateComponents(
 		return
 	}
 	c.persesOperator, err = r.newPersesOperator()
+	if err != nil {
+		return
+	}
+	c.gardenPerses, err = r.newGardenPerses()
 	if err != nil {
 		return
 	}
@@ -1499,6 +1505,18 @@ func (r *Reconciler) newPersesOperator() (component.DeployWaiter, error) {
 		r.GardenNamespace,
 		v1beta1constants.PriorityClassNameGardenSystem100,
 	)
+}
+
+func (r *Reconciler) newGardenPerses() (component.DeployWaiter, error) {
+	return sharedcomponent.NewPerses(
+		r.RuntimeClientSet.Client(),
+		r.GardenNamespace,
+		perses.Values{
+			Name:            "perses-garden",
+			Image:           imagevector.ContainerImageNamePerses,
+			IsGardenCluster: true,
+			IsSeedCluster:   false,
+		})
 }
 
 func (r *Reconciler) newGardenerDiscoveryServer(

@@ -492,6 +492,11 @@ func (r *Reconciler) runReconcileSeedFlow(
 			Dependencies: flow.NewTaskIDs(syncPointReadyForSystemComponents),
 			SkipIf:       seedIsGarden,
 		})
+		_ = g.Add(flow.Task{
+			Name:         "Deploying Seed Perses",
+			Fn:           c.seedPerses.Deploy,
+			Dependencies: flow.NewTaskIDs(syncPointReadyForSystemComponents),
+		})
 		deleteStaleExtensionResources = g.Add(flow.Task{
 			Name:         "Deleting stale extension resources",
 			Fn:           c.extension.DeleteStaleResources,

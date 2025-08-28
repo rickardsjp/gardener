@@ -7,6 +7,7 @@ package seed
 import (
 	"context"
 	"fmt"
+	"github.com/gardener/gardener/pkg/component/observability/monitoring/perses"
 	"maps"
 
 	fluentbitv1alpha2 "github.com/fluent/fluent-operator/v3/apis/fluentbit/v1alpha2"
@@ -120,6 +121,7 @@ type components struct {
 	aggregatePrometheus           component.DeployWaiter
 	alertManager                  component.DeployWaiter
 	persesOperator                component.DeployWaiter
+	seedPerses                    component.DeployWaiter
 	openTelemetryOperator         component.DeployWaiter
 }
 
@@ -270,6 +272,10 @@ func (r *Reconciler) instantiateComponents(
 		return
 	}
 	c.persesOperator, err = r.newPersesOperator()
+	if err != nil {
+		return
+	}
+	c.seedPerses, err = r.newSeedPerses()
 	if err != nil {
 		return
 	}
@@ -564,6 +570,15 @@ func (r *Reconciler) newPlutono(seed *seedpkg.Seed, secretsManager secretsmanage
 		wildcardCertName,
 		seedIsGarden,
 	)
+}
+
+func (r *Reconciler) newSeedPerses() (component.DeployWaiter, error) {
+	return sharedcomponent.NewPerses(r.SeedClientSet.Client(), r.GardenNamespace, perses.Values{
+		Name:            "perses-seed",
+		Image:           imagevector.ContainerImageNamePerses,
+		IsGardenCluster: false,
+		IsSeedCluster:   true,
+	})
 }
 
 func (r *Reconciler) newCachePrometheus(log logr.Logger, seed *seedpkg.Seed, seedIsShoot bool) (component.DeployWaiter, error) {

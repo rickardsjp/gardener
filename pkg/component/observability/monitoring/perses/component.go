@@ -26,6 +26,10 @@ type Values struct {
 	Name string
 	// Image is the name of the perses image
 	Image string
+	// IsGardenCluster denotes whether Perses is being deployed to the garden cluster
+	IsGardenCluster bool
+	// IsSeedCluster denotes whether Perses is being deployed to a seed cluster
+	IsSeedCluster bool
 }
 
 // New creates a new instance of DeployWaiter for the perses instance.
@@ -46,17 +50,18 @@ type perses struct {
 func (p *perses) Deploy(ctx context.Context) error {
 	registry := managedresources.NewRegistry(kubernetes.SeedScheme, kubernetes.SeedCodec, kubernetes.SeedSerializer)
 
-	resources, err := registry.AddAllAndSerialize(
-		p.perses(),
-	)
+	objects := []client.Object{p.perses()}
+	objects = append(objects, p.persesDatasources()...)
+
+	resources, err := registry.AddAllAndSerialize(objects...)
 	if err != nil {
 		return err
 	}
-	return managedresources.CreateForSeed(ctx, p.client, p.namespace, p.name(), false, resources)
+	return managedresources.CreateForSeed(ctx, p.client, p.namespace, p.values.Name, false, resources)
 }
 
 func (p *perses) Destroy(ctx context.Context) error {
-	return managedresources.DeleteForSeed(ctx, p.client, p.namespace, p.name())
+	return managedresources.DeleteForSeed(ctx, p.client, p.namespace, p.values.Name)
 }
 
 var TimeoutWaitForManagedResource = 5 * time.Minute
@@ -65,14 +70,14 @@ func (p *perses) Wait(ctx context.Context) error {
 	timeoutCtx, cancel := context.WithTimeout(ctx, TimeoutWaitForManagedResource)
 	defer cancel()
 
-	return managedresources.WaitUntilHealthy(timeoutCtx, p.client, p.namespace, p.name())
+	return managedresources.WaitUntilHealthy(timeoutCtx, p.client, p.namespace, p.values.Name)
 }
 
 func (p *perses) WaitCleanup(ctx context.Context) error {
 	timeoutCtx, cancel := context.WithTimeout(ctx, TimeoutWaitForManagedResource)
 	defer cancel()
 
-	return managedresources.WaitUntilDeleted(timeoutCtx, p.client, p.namespace, p.name())
+	return managedresources.WaitUntilDeleted(timeoutCtx, p.client, p.namespace, p.values.Name)
 }
 
 func (p *perses) name() string {
