@@ -553,6 +553,16 @@ func (r *Reconciler) runReconcileSeedFlow(
 			Dependencies: flow.NewTaskIDs(syncPointReadyForSystemComponents),
 			SkipIf:       seedIsGarden,
 		})
+		deployPerses = g.Add(flow.Task{
+			Name:         "Deploying Perses",
+			Fn:           c.perses.Deploy,
+			Dependencies: flow.NewTaskIDs(syncPointReadyForSystemComponents),
+		})
+		_ = g.Add(flow.Task{
+			Name:         "Waiting until Perses is ready",
+			Fn:           c.perses.Wait,
+			Dependencies: flow.NewTaskIDs(deployPerses),
+		})
 		_ = g.Add(flow.Task{
 			Name:         "Deploying Victoria Operator",
 			Fn:           c.victoriaOperator.Deploy,
