@@ -782,6 +782,16 @@ func (r *Reconciler) reconcile(
 			Name: "Deploying perses-operator",
 			Fn:   c.persesOperator.Deploy,
 		})
+		deployPerses = g.Add(flow.Task{
+			Name:         "Deploying Perses",
+			Fn:           c.perses.Deploy,
+			Dependencies: flow.NewTaskIDs(generateObservabilityIngressPassword),
+		})
+		_ = g.Add(flow.Task{
+			Name:         "Waiting until Perses is ready",
+			Fn:           c.perses.Wait,
+			Dependencies: flow.NewTaskIDs(deployPerses),
+		})
 		_ = g.Add(flow.Task{
 			Name: "Deploying victoria-operator",
 			Fn:   c.victoriaOperator.Deploy,
