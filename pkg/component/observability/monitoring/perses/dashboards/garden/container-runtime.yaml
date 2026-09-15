@@ -82,7 +82,7 @@ layouts:
   - kind: Grid
     spec:
       display:
-        title: $cri
+        title: Container Runtime
         collapse:
           open: true
       items:
