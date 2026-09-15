@@ -83,4 +83,4 @@ layouts:
           content:
             $ref: '#/spec/panels/1_0'
       repeatVariable: resource
-duration: 1h
+duration: 30m

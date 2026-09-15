@@ -245,3 +245,4 @@ layouts:
           content:
             $ref: '#/spec/panels/0_3'
 duration: 1h
+refreshInterval: 30s

@@ -225,4 +225,4 @@ layouts:
           height: 10
           content:
             $ref: '#/spec/panels/4'
-duration: 1h
+duration: 30m

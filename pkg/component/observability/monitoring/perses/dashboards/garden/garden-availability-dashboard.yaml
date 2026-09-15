@@ -300,4 +300,5 @@ layouts:
           height: 10
           content:
             $ref: '#/spec/panels/7_0'
-duration: 1h
+duration: 3h
+refreshInterval: 1m

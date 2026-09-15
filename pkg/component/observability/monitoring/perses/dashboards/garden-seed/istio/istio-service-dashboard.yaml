@@ -424,4 +424,5 @@ layouts:
           height: 6
           content:
             $ref: '#/spec/panels/1_6'
-duration: 1h
+duration: 15m
+refreshInterval: 1m

@@ -93,4 +93,4 @@ layouts:
           content:
             $ref: '#/spec/panels/1_0'
       repeatVariable: cri
-duration: 1h
+duration: 30m
