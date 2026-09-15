@@ -479,8 +479,6 @@ panels:
 layouts:
   - kind: Grid
     spec:
-      display:
-        title: Panel Group 1
       items:
         - x: 0
           "y": 0
