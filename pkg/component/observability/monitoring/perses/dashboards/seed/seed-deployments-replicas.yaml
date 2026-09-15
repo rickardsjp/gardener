@@ -16,6 +16,9 @@ variables:
           labelName: deployment
           matchers:
             - kube_deployment_metadata_generation{namespace!="garden", namespace!="kube-system"}
+          datasource:
+            kind: PrometheusDatasource
+            name: prometheus-seed
       name: deployment_name
 panels:
   "0":
@@ -40,6 +43,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: max(kube_deployment_spec_replicas{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}'
@@ -65,6 +69,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: min(kube_deployment_status_replicas_available{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}'
@@ -88,6 +93,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: max(kube_deployment_status_observed_generation{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}'
@@ -111,6 +117,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: max(kube_deployment_metadata_generation{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}'
@@ -133,6 +140,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: max(kube_deployment_status_replicas{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}: current replicas'
@@ -143,6 +151,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: min(kube_deployment_status_replicas_available{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}: available'
@@ -153,6 +162,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: max(kube_deployment_status_replicas_unavailable{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}: unavailable'
@@ -163,6 +173,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: min(kube_deployment_status_replicas_updated{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}: updated'
@@ -173,6 +184,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: max(kube_deployment_spec_replicas{deployment="$deployment_name"}) without (instance, pod)
                 seriesNameFormat: '{{namespace}}: desired'

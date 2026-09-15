@@ -16,6 +16,9 @@ variables:
           labelName: operation
           matchers:
             - gardenlet_shoot_operation_duration_seconds_sum{}
+          datasource:
+            kind: PrometheusDatasource
+            name: prometheus-seed
       name: operation_type
   - kind: ListVariable
     spec:
@@ -87,6 +90,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: prometheus-seed
                 minStep: ""
                 query: rate(gardenlet_shoot_operation_duration_seconds_sum{operation=~"$operation_type",workerless=~"$workerless",hibernated=~"$hibernated"}[$__rate_interval]) / rate(gardenlet_shoot_operation_duration_seconds_count{operation=~"$operation_type",workerless=~"$workerless",hibernated=~"$hibernated"}[$__rate_interval])
                 seriesNameFormat: ""
@@ -100,6 +104,7 @@ panels:
         kind: Markdown
         spec:
           text: '**Migration from Grafana not supported !**'
+      queries: []
 layouts:
   - kind: Grid
     spec:
