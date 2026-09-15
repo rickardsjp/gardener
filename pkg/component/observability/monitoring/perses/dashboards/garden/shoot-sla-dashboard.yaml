@@ -251,6 +251,9 @@ panels:
               unit: decimal
             max: 30
             min: 0
+          legend:
+            position: right
+            mode: table
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -277,6 +280,11 @@ panels:
           yAxis:
             format:
               unit: decimal
+          legend:
+            position: bottom
+            mode: table
+            values:
+              - max
       queries:
         - kind: TimeSeriesQuery
           spec:

@@ -222,6 +222,9 @@ panels:
           yAxis:
             format:
               unit: ops/sec
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -240,6 +243,9 @@ panels:
           yAxis:
             format:
               unit: percent-decimal
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -258,6 +264,9 @@ panels:
           yAxis:
             format:
               unit: ops/sec
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -276,6 +285,9 @@ panels:
           yAxis:
             format:
               unit: percent-decimal
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -294,6 +306,9 @@ panels:
           yAxis:
             format:
               unit: bytes/sec
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -312,6 +327,9 @@ panels:
           yAxis:
             format:
               unit: bytes/sec
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:

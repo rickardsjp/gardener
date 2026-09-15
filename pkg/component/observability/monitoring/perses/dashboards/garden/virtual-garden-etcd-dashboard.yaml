@@ -201,6 +201,11 @@ panels:
           yAxis:
             format:
               unit: decimal
+          legend:
+            position: right
+            mode: table
+            values:
+              - last
       queries:
         - kind: TimeSeriesQuery
           spec:

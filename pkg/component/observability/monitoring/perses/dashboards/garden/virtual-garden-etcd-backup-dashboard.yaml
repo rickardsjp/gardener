@@ -224,6 +224,9 @@ panels:
           yAxis:
             format:
               unit: seconds
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:

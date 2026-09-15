@@ -60,6 +60,9 @@ panels:
           yAxis:
             format:
               unit: decimal
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -84,6 +87,9 @@ panels:
           yAxis:
             format:
               unit: bytes
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -108,6 +114,9 @@ panels:
           yAxis:
             format:
               unit: decimal
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -126,6 +135,9 @@ panels:
           yAxis:
             format:
               unit: bytes
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -144,6 +156,9 @@ panels:
           yAxis:
             format:
               unit: bytes
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -162,6 +177,9 @@ panels:
           yAxis:
             format:
               unit: bytes
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -180,6 +198,9 @@ panels:
           yAxis:
             format:
               unit: bytes
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -198,6 +219,9 @@ panels:
           yAxis:
             format:
               unit: bytes
+          legend:
+            position: bottom
+            mode: list
       queries:
         - kind: TimeSeriesQuery
           spec:
