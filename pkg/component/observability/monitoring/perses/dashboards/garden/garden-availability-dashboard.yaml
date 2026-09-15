@@ -178,6 +178,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Down / Up
           legend:
             position: bottom
             mode: list
@@ -203,6 +204,7 @@ panels:
           yAxis:
             format:
               unit: milliseconds
+            label: Response Time (ms)
           legend:
             position: bottom
             mode: list
@@ -228,6 +230,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: State
           legend:
             position: right
             mode: table

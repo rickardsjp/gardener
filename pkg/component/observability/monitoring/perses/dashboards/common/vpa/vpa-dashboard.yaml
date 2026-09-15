@@ -156,6 +156,7 @@ panels:
           yAxis:
             format:
               unit: bytes
+            label: Bytes
           legend:
             position: bottom
             mode: table
@@ -235,6 +236,7 @@ panels:
           yAxis:
             format:
               unit: bytes
+            label: Bytes
           legend:
             position: bottom
             mode: table
@@ -284,6 +286,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: bottom
             mode: table
@@ -363,6 +366,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: bottom
             mode: table

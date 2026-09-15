@@ -101,6 +101,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: workers/s
           legend:
             position: right
             mode: table
@@ -159,6 +160,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: errors/s
           legend:
             position: right
             mode: table
@@ -218,6 +220,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: 1/s
           legend:
             position: right
             mode: table
@@ -248,6 +251,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: right
             mode: table
@@ -337,6 +341,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: 1/s
           legend:
             position: right
             mode: table
@@ -397,6 +402,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: adds/s
           legend:
             position: right
             mode: table
@@ -426,6 +432,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: retries/s
           legend:
             position: right
             mode: table

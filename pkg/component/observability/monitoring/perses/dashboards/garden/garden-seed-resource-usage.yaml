@@ -51,6 +51,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Shoots
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -183,6 +184,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: right
             mode: table
@@ -212,6 +214,7 @@ panels:
           yAxis:
             format:
               unit: bytes
+            label: Memory
           legend:
             position: right
             mode: table
@@ -264,6 +267,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Nodes
           legend:
             position: right
             mode: table
@@ -291,6 +295,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: ControlPlanes
           legend:
             position: right
             mode: table
@@ -345,6 +350,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: right
             mode: table
@@ -374,6 +380,7 @@ panels:
           yAxis:
             format:
               unit: bytes
+            label: Memory
           legend:
             position: right
             mode: table
@@ -403,6 +410,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: right
             mode: table
@@ -432,6 +440,7 @@ panels:
           yAxis:
             format:
               unit: bytes
+            label: Memory
           legend:
             position: right
             mode: table
@@ -461,6 +470,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: right
             mode: table
@@ -488,6 +498,7 @@ panels:
           yAxis:
             format:
               unit: decbytes
+            label: Memory
           legend:
             position: right
             mode: table

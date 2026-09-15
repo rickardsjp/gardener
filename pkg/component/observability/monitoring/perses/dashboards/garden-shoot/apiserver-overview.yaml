@@ -200,6 +200,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: rejections/s
           legend:
             position: right
             mode: table
@@ -228,6 +229,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: events/s
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -250,6 +252,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: events/s
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -272,6 +275,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -294,6 +298,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: attemps/s
           legend:
             position: right
             mode: table
@@ -323,6 +328,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -376,6 +382,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: right
             mode: table
@@ -406,6 +413,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: right
             mode: table
@@ -434,6 +442,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: right
             mode: table
@@ -463,6 +472,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: right
             mode: table
@@ -492,6 +502,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: right
             mode: table
@@ -520,6 +531,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: right
             mode: table
@@ -548,6 +560,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: requests/s
           legend:
             position: bottom
             mode: list
@@ -747,6 +760,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: operations/s
           legend:
             position: right
             mode: table
@@ -841,6 +855,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: watch events/s
           legend:
             position: right
             mode: table
@@ -902,6 +917,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: watch events/s
           legend:
             position: right
             mode: table

@@ -13,6 +13,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: bottom
             mode: list
@@ -38,6 +39,7 @@ panels:
           yAxis:
             format:
               unit: bytes
+            label: Memory
           legend:
             position: bottom
             mode: list
@@ -63,6 +65,7 @@ panels:
           yAxis:
             format:
               unit: decimal
+            label: Cores
           legend:
             position: bottom
             mode: list
@@ -88,6 +91,7 @@ panels:
           yAxis:
             format:
               unit: bytes
+            label: Memory
           legend:
             position: bottom
             mode: list
