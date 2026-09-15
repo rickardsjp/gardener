@@ -153,7 +153,10 @@ panels:
         description: Shows the recommendations that the VPA gives as target usage. The graph also shows the actual usage of each container.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: bytes
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -223,7 +226,10 @@ panels:
         description: "Shows the recommendation of the VPA and compares it to the requests and limits of all containers in a pod. \n\n**Requests and/or limits may not reflect useful values if they are not defined for each container in a pod."
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: bytes
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -263,7 +269,10 @@ panels:
         description: Shows the recommendations that the VPA gives as target usage. The graph also shows the actual usage of each container.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -333,7 +342,10 @@ panels:
         description: "Shows the recommendation of the VPA and compares it to the requests and limits of all containers in a pod. \n\n**Requests and/or limits may not reflect useful values if they are not defined for each container in a pod."
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -372,7 +384,10 @@ panels:
         name: 'Continuous Underutilization '
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -404,7 +419,10 @@ panels:
         name: 'Continuous Overutilization '
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:

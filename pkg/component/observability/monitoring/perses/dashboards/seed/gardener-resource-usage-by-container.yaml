@@ -116,7 +116,10 @@ panels:
         name: Memory usage
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: bytes
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -145,7 +148,10 @@ panels:
         name: Working Set Memory usage
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: bytes
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -174,7 +180,10 @@ panels:
         name: Memory requests
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: bytes
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -203,7 +212,10 @@ panels:
         name: Network Receive
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decbytes/sec
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -232,7 +244,10 @@ panels:
         name: Network Transmit
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decbytes/sec
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -261,7 +276,10 @@ panels:
         name: Persistent Volume Usage
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: bytes
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -290,7 +308,10 @@ panels:
         name: Persistent Volume Claims
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: bytes
       queries:
         - kind: TimeSeriesQuery
           spec:

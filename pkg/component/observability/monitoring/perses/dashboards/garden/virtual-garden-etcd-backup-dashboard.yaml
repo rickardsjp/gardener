@@ -88,7 +88,10 @@ panels:
         description: Total number of full snapshots successfully uploaded to the snapstore, as well as total number of failed attempts for the same, over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -118,7 +121,10 @@ panels:
         description: Total number of delta snapshots successfully uploaded to the snapstore, as well as total number of failed attempts for the same, over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -148,7 +154,10 @@ panels:
         description: Total number of snapshots successfully garbage-collected from the snapstore, as well as total number of failed attempts for the same, over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -178,7 +187,10 @@ panels:
         description: Total number of successful and failed attempts to defragment the etcd data store over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -208,7 +220,10 @@ panels:
         description: Duration of taking full and delta snapshots over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: seconds
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -238,7 +253,10 @@ panels:
         description: Total number of successful and failed attempts at etcd data validations over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -268,7 +286,10 @@ panels:
         description: Total number of successful and failed attempts at etcd data restorations over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -298,7 +319,10 @@ panels:
         description: Memory consumed by etcd-backup-restore process over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decbytes
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -318,7 +342,10 @@ panels:
         description: Total CPU usage by etcd-backup-restore process as a percentage of total available CPU to the container, over time.
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: percent
       queries:
         - kind: TimeSeriesQuery
           spec:

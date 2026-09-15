@@ -123,7 +123,10 @@ panels:
         name: Cluster peers joined
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -138,7 +141,10 @@ panels:
         name: Peers position
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -153,7 +159,10 @@ panels:
         name: Configuration HASH (expected to be equal over all instances)
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -168,7 +177,10 @@ panels:
         name: Received alerts by status for $instance
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -183,7 +195,10 @@ panels:
         name: Active alerts on $instance
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -198,7 +213,10 @@ panels:
         name: Notifications $instance
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -213,7 +231,10 @@ panels:
         name: Silences on $instance
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -246,7 +267,10 @@ panels:
         name: CPU usage for $instance
       plugin:
         kind: TimeSeriesChart
-        spec: {}
+        spec:
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
