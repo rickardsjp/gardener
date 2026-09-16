@@ -113,7 +113,13 @@ panels:
       plugin:
         kind: Table
         spec:
-          columnSettings: []
+          columnSettings:
+            - name: timestamp
+              hide: true
+            - name: destination_workload
+              hide: true
+            - name: destination_workload_namespace
+              hide: true
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -337,7 +343,13 @@ panels:
       plugin:
         kind: Table
         spec:
-          columnSettings: []
+          columnSettings:
+            - name: timestamp
+              hide: true
+            - name: destination_workload
+              hide: true
+            - name: destination_workload_namespace
+              hide: true
       queries:
         - kind: TimeSeriesQuery
           spec:

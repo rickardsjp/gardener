@@ -202,7 +202,9 @@ panels:
       plugin:
         kind: Table
         spec:
-          columnSettings: []
+          columnSettings:
+            - name: timestamp
+              hide: true
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -222,7 +224,11 @@ panels:
       plugin:
         kind: Table
         spec:
-          columnSettings: []
+          columnSettings:
+            - name: timestamp
+              hide: true
+            - name: value
+              hide: true
       queries:
         - kind: TimeSeriesQuery
           spec:
