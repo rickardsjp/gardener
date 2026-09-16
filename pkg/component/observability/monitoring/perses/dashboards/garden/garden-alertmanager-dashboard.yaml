@@ -84,9 +84,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: alertmanager_cluster_members{instance=~"$instance"}
                 seriesNameFormat: '{{instance}}'
@@ -113,9 +111,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: time() - (alertmanager_build_info{instance=~"$instance"} * on (instance, cluster, job) group_left process_start_time_seconds{instance=~"$instance"})
                 seriesNameFormat: ""
@@ -124,9 +120,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: time() - (alertmanager_build_info{instance=~"$instance"} * on (instance, cluster, job) group_left alertmanager_config_last_reload_success_timestamp_seconds{instance=~"$instance"})
                 seriesNameFormat: ""
@@ -150,9 +144,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: rate(alertmanager_cluster_peers_joined_total[$__rate_interval])
                 seriesNameFormat: '{{instance}}'
@@ -176,9 +168,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: alertmanager_peer_position
                 seriesNameFormat: '{{instance}}'
@@ -202,9 +192,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: alertmanager_config_hash
                 seriesNameFormat: '{{instance}}'
@@ -230,9 +218,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(alertmanager_alerts_received_total{instance=~"$instance"}[$__rate_interval])) by (status)
                 seriesNameFormat: '{{status}}'
@@ -256,9 +242,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: alertmanager_alerts{instance=~"$instance"}
                 seriesNameFormat: '{{state}}'
@@ -284,9 +268,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: rate(alertmanager_notifications_total{instance=~"$instance"}[$__rate_interval])
                 seriesNameFormat: '{{integration}}'
@@ -310,9 +292,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: alertmanager_silences{state="active", instance=~"$instance"}
                 seriesNameFormat: '{{instance}}'
@@ -333,9 +313,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: process_resident_memory_bytes{instance=~"$instance"}
                 seriesNameFormat: ""
@@ -356,9 +334,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: $datasource
+                datasource: $datasource
                 minStep: ""
                 query: rate(process_cpu_seconds_total{instance=~"$instance"}[$__rate_interval])
                 seriesNameFormat: '{{instance}}'
