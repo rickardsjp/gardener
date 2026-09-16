@@ -27,6 +27,8 @@ panels:
         kind: StatChart
         spec:
           calculation: last
+          format:
+            unit: datetime-local
       queries:
         - kind: TimeSeriesQuery
           spec:
