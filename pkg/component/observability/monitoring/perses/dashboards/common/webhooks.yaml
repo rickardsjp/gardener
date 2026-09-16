@@ -77,9 +77,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_webhook_requests_total{job="$job",webhook=~"$webhook"}[$__range])) by (webhook)
                 seriesNameFormat: '{{webhook}}'
@@ -114,9 +112,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_webhook_requests_total{job="$job",webhook=~"$webhook"}[$__rate_interval])) by (webhook)
                 seriesNameFormat: '{{webhook}}'
@@ -150,9 +146,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_webhook_requests_total{job="$job",webhook=~"$webhook"}[$__rate_interval])) by (code)
                 seriesNameFormat: '{{code}}'
@@ -186,9 +180,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(controller_runtime_webhook_requests_in_flight{job="$job",webhook=~"$webhook"}) by (webhook)
                 seriesNameFormat: '{{webhook}}'
@@ -223,9 +215,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: histogram_quantile($percentile/100,sum(rate(controller_runtime_webhook_latency_seconds_bucket{job="$job",webhook=~"$webhook"}[$__rate_interval])) by(le,webhook))
                 seriesNameFormat: '{{webhook}}'

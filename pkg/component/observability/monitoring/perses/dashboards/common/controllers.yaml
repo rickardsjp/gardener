@@ -77,9 +77,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_reconcile_total{job="$job",controller=~"$controller"}[$__range])) by (controller)
                 seriesNameFormat: '{{controller}}'
@@ -107,9 +105,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(controller_runtime_max_concurrent_reconciles{job="$job",controller=~"$controller"}) by (controller)
                 seriesNameFormat: ""
@@ -133,9 +129,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_reconcile_time_seconds_sum{job="$job",controller=~"$controller"}[$__range])) by (controller)
                 seriesNameFormat: '{{controller}}'
@@ -170,9 +164,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_reconcile_total{job="$job",controller=~"$controller"}[$__rate_interval])) by (controller)
                 seriesNameFormat: '{{controller}}'
@@ -201,9 +193,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_reconcile_total{job="$job",controller=~"$controller"}[$__rate_interval])) by (result)
                 seriesNameFormat: '{{result}}'
@@ -233,9 +223,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(controller_runtime_reconcile_errors_total{job="$job",controller=~"$controller"}[$__rate_interval])) by (controller)
                 seriesNameFormat: '{{controller}}'
@@ -264,9 +252,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: histogram_quantile($percentile/100, sum(rate(controller_runtime_reconcile_time_seconds_bucket{job="$job",controller=~"$controller"}[$__rate_interval])) by (controller,le))
                 seriesNameFormat: '{{controller}}'
@@ -296,9 +282,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(controller_runtime_active_workers{job="$job",controller=~"$controller"}) by (controller)
                 seriesNameFormat: '{{controller}}'
@@ -321,9 +305,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(controller_runtime_max_concurrent_reconciles{job="$job",controller=~"$controller"}) by (controller)
                 seriesNameFormat: ""
@@ -353,9 +335,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: max(workqueue_longest_running_processor_seconds{job="$job",name=~"$controller"}) by (name)
                 seriesNameFormat: '{{name}}'
@@ -386,9 +366,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(workqueue_unfinished_work_seconds{job="$job",name=~"$controller"}[$__rate_interval])) by (name)
                 seriesNameFormat: '{{name}}'
@@ -419,9 +397,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(workqueue_adds_total{job="$job",name=~"$controller"}[$__rate_interval])) by (name)
                 seriesNameFormat: '{{name}}'
@@ -453,9 +429,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(workqueue_retries_total{job="$job",name=~"$controller"}[$__rate_interval])) by (name)
                 seriesNameFormat: '{{name}}'
@@ -485,9 +459,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: histogram_quantile($percentile/100, sum(rate(workqueue_queue_duration_seconds_bucket{job="$job",name=~"$controller"}[$__rate_interval])) by (name,le))
                 seriesNameFormat: '{{name}}'
@@ -517,9 +489,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: histogram_quantile($percentile/100, sum(rate(workqueue_work_duration_seconds_bucket{job="$job",name=~"$controller"}[$__rate_interval])) by (name,le))
                 seriesNameFormat: '{{name}}'
@@ -548,9 +518,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(workqueue_depth{job="$job",name=~"$controller"}) by (name)
                 seriesNameFormat: '{{name}}'

@@ -117,9 +117,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(rest_client_requests_total{job="$job",pod=~"$pod",method=~"$verb",code=~"$code"}[$__rate_interval])) by (pod)
                 seriesNameFormat: '{{pod}}'
@@ -148,9 +146,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(rest_client_requests_total{job="$job",pod=~"$pod",method=~"$verb",code=~"$code"}[$__rate_interval])) by (code)
                 seriesNameFormat: '{{code}}'
@@ -179,9 +175,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(rate(rest_client_requests_total{job="$job",pod=~"$pod",method=~"$verb",code=~"$code"}[$__rate_interval])) by (method)
                 seriesNameFormat: '{{method}}'

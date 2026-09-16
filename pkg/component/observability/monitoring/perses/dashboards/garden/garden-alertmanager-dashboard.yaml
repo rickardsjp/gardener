@@ -55,9 +55,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: count(up{job="alertmanager-garden"})
                 seriesNameFormat: ""

@@ -122,9 +122,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: round(sum(irate(istio_requests_total{reporter=~"source",destination_workload_namespace=~"$namespace",destination_workload=~"$workload"}[5m])), 0.001)
                 seriesNameFormat: ""
@@ -159,9 +157,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(irate(istio_requests_total{reporter=~"source",destination_workload_namespace=~"$namespace",destination_workload=~"$workload",response_code!~"5.*"}[5m])) / sum(irate(istio_requests_total{reporter=~"source",destination_workload_namespace=~"$namespace",destination_workload=~"$workload"}[5m]))
                 seriesNameFormat: ""
@@ -194,9 +190,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(irate(istio_tcp_sent_bytes_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload"}[$__rate_interval])) + sum(irate(istio_tcp_received_bytes_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload"}[$__rate_interval]))
                 seriesNameFormat: ""
@@ -229,9 +223,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(irate(istio_tcp_sent_bytes_total{reporter=~"source", source_workload_namespace=~"$namespace", source_workload=~"$workload"}[$__rate_interval])) + sum(irate(istio_tcp_received_bytes_total{reporter=~"source", source_workload_namespace=~"$namespace", source_workload=~"$workload"}[$__rate_interval]))
                 seriesNameFormat: ""
@@ -275,9 +267,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: round(sum(irate(istio_requests_total{destination_workload_namespace=~"$namespace", destination_workload=~"$workload", reporter=~"source", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[5m])) by (source_workload, source_workload_namespace, response_code), 0.001)
                 seriesNameFormat: '{{ source_workload }}.{{ source_workload_namespace }} : {{ response_code }}'
@@ -301,9 +291,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(irate(istio_requests_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload",response_code!~"5.*", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[5m])) by (source_workload, source_workload_namespace) / sum(irate(istio_requests_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[5m])) by (source_workload, source_workload_namespace)
                 seriesNameFormat: '{{ source_workload }}.{{ source_workload_namespace }}'
@@ -327,9 +315,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: round(sum(label_replace(irate(istio_requests_total{destination_workload_namespace=~"$namespace", destination_workload=~"$workload", reporter=~"source", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[5m]), "pod_ip", "$1", "upstream_address", "(.*):.*")) by (source_workload, source_workload_namespace, pod_ip), 0.001) * on(pod_ip) group_left (pod) topk(1, kube_pod_info{host_network="false", pod_ip!=""}) by (pod_ip)
                 seriesNameFormat: '{{ source_workload }}.{{ source_workload_namespace }} -> {{ pod }}'
@@ -353,9 +339,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: sum(label_replace(irate(istio_requests_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload",response_code!~"5.*", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[5m]), "pod_ip", "$1", "upstream_address", "(.*):.*")) by (source_workload, source_workload_namespace, pod_ip) / sum(label_replace(irate(istio_requests_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[5m]), "pod_ip", "$1", "upstream_address", "(.*):.*")) by (source_workload, source_workload_namespace, pod_ip) * on(pod_ip) group_left (pod) topk(1, kube_pod_info{host_network="false", pod_ip!=""}) by (pod_ip)
                 seriesNameFormat: '{{ source_workload }}.{{ source_workload_namespace }} -> {{ pod }}'
@@ -379,9 +363,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: round(sum(irate(istio_tcp_received_bytes_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[$__rate_interval])) by (source_workload, source_workload_namespace), 0.001)
                 seriesNameFormat: '{{ source_workload }}.{{ source_workload_namespace}}'
@@ -405,9 +387,7 @@ panels:
             plugin:
               kind: PrometheusTimeSeriesQuery
               spec:
-                datasource:
-                  kind: PrometheusDatasource
-                  name: ${datasource}
+                datasource: $datasource
                 minStep: ""
                 query: round(sum(irate(istio_tcp_sent_bytes_total{reporter=~"source", destination_workload_namespace=~"$namespace", destination_workload=~"$workload", source_workload=~"$srcwl", source_workload_namespace=~"$srcns"}[$__rate_interval])) by (source_workload, source_workload_namespace), 0.001)
                 seriesNameFormat: '{{ source_workload }}.{{ source_workload_namespace}}'
