@@ -57,6 +57,7 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: ${datasource}
                 minStep: ""
                 query: count(up{job="alertmanager-garden"})
                 seriesNameFormat: ""
@@ -87,6 +88,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: alertmanager_cluster_members{instance=~"$instance"}
                 seriesNameFormat: '{{instance}}'
   "0_2":
@@ -114,7 +117,10 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: time() - (alertmanager_build_info{instance=~"$instance"} * on (instance, cluster, job) group_left process_start_time_seconds{instance=~"$instance"})
+                seriesNameFormat: ""
         - kind: TimeSeriesQuery
           spec:
             plugin:
@@ -122,7 +128,10 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: time() - (alertmanager_build_info{instance=~"$instance"} * on (instance, cluster, job) group_left alertmanager_config_last_reload_success_timestamp_seconds{instance=~"$instance"})
+                seriesNameFormat: ""
   "0_3":
     kind: Panel
     spec:
@@ -131,12 +140,12 @@ panels:
       plugin:
         kind: TimeSeriesChart
         spec:
-          yAxis:
-            format:
-              unit: decimal
           legend:
             position: bottom
             mode: list
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -145,6 +154,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: rate(alertmanager_cluster_peers_joined_total[$__rate_interval])
                 seriesNameFormat: '{{instance}}'
   "0_4":
@@ -155,12 +166,12 @@ panels:
       plugin:
         kind: TimeSeriesChart
         spec:
-          yAxis:
-            format:
-              unit: decimal
           legend:
             position: bottom
             mode: list
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -169,6 +180,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: alertmanager_peer_position
                 seriesNameFormat: '{{instance}}'
   "0_5":
@@ -179,12 +192,12 @@ panels:
       plugin:
         kind: TimeSeriesChart
         spec:
-          yAxis:
-            format:
-              unit: decimal
           legend:
             position: bottom
             mode: list
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -193,6 +206,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: alertmanager_config_hash
                 seriesNameFormat: '{{instance}}'
   "1_0":
@@ -203,14 +218,14 @@ panels:
       plugin:
         kind: TimeSeriesChart
         spec:
-          yAxis:
-            format:
-              unit: decimal
           legend:
             position: bottom
             mode: table
             values:
               - last
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -219,6 +234,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: sum(rate(alertmanager_alerts_received_total{instance=~"$instance"}[$__rate_interval])) by (status)
                 seriesNameFormat: '{{status}}'
   "2_0":
@@ -229,12 +246,12 @@ panels:
       plugin:
         kind: TimeSeriesChart
         spec:
-          yAxis:
-            format:
-              unit: decimal
           legend:
             position: bottom
             mode: list
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -243,6 +260,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: alertmanager_alerts{instance=~"$instance"}
                 seriesNameFormat: '{{state}}'
   "3_0":
@@ -253,14 +272,14 @@ panels:
       plugin:
         kind: TimeSeriesChart
         spec:
-          yAxis:
-            format:
-              unit: decimal
           legend:
             position: bottom
             mode: table
             values:
               - last
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -269,6 +288,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: rate(alertmanager_notifications_total{instance=~"$instance"}[$__rate_interval])
                 seriesNameFormat: '{{integration}}'
   "4_0":
@@ -279,12 +300,12 @@ panels:
       plugin:
         kind: TimeSeriesChart
         spec:
-          yAxis:
-            format:
-              unit: decimal
           legend:
             position: bottom
             mode: list
+          yAxis:
+            format:
+              unit: decimal
       queries:
         - kind: TimeSeriesQuery
           spec:
@@ -293,6 +314,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: alertmanager_silences{state="active", instance=~"$instance"}
                 seriesNameFormat: '{{instance}}'
   "5_0":
@@ -314,7 +337,10 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: process_resident_memory_bytes{instance=~"$instance"}
+                seriesNameFormat: ""
   "5_1":
     kind: Panel
     spec:
@@ -334,6 +360,8 @@ panels:
               spec:
                 datasource:
                   kind: PrometheusDatasource
+                  name: $datasource
+                minStep: ""
                 query: rate(process_cpu_seconds_total{instance=~"$instance"}[$__rate_interval])
                 seriesNameFormat: '{{instance}}'
 layouts:
@@ -393,9 +421,6 @@ layouts:
           height: 8
           content:
             $ref: '#/spec/panels/1_0'
-          repeatVariable:
-            value: instance
-            alignment: horizontal
   - kind: Grid
     spec:
       display:
@@ -409,9 +434,6 @@ layouts:
           height: 8
           content:
             $ref: '#/spec/panels/2_0'
-          repeatVariable:
-            value: instance
-            alignment: horizontal
   - kind: Grid
     spec:
       display:
@@ -425,9 +447,6 @@ layouts:
           height: 8
           content:
             $ref: '#/spec/panels/3_0'
-          repeatVariable:
-            value: instance
-            alignment: horizontal
   - kind: Grid
     spec:
       display:
@@ -441,9 +460,6 @@ layouts:
           height: 8
           content:
             $ref: '#/spec/panels/4_0'
-          repeatVariable:
-            value: instance
-            alignment: horizontal
   - kind: Grid
     spec:
       display:
@@ -457,16 +473,10 @@ layouts:
           height: 8
           content:
             $ref: '#/spec/panels/5_0'
-          repeatVariable:
-            value: instance
-            alignment: horizontal
         - x: 0
           "y": 61
           width: 12
           height: 8
           content:
             $ref: '#/spec/panels/5_1'
-          repeatVariable:
-            value: instance
-            alignment: horizontal
 duration: 5m
