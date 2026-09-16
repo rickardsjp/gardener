@@ -385,7 +385,7 @@ panels:
                   name: ${datasource}
                 minStep: ""
                 query: max(workqueue_longest_running_processor_seconds{job="$job",pod=~"$pod",name="$controller"}) by (pod)
-                seriesNameFormat: '{{name}}'
+                seriesNameFormat: '{{pod}}'
   "2_0":
     kind: Panel
     spec:
@@ -418,7 +418,7 @@ panels:
                   name: ${datasource}
                 minStep: ""
                 query: sum(rate(workqueue_adds_total{job="$job",pod=~"$pod",name="$controller"}[$__rate_interval])) by (pod)
-                seriesNameFormat: '{{name}}'
+                seriesNameFormat: '{{pod}}'
   "2_1":
     kind: Panel
     spec:
@@ -451,7 +451,7 @@ panels:
                   name: ${datasource}
                 minStep: ""
                 query: sum(rate(workqueue_retries_total{job="$job",pod=~"$pod",name="$controller"}[$__rate_interval])) by (pod)
-                seriesNameFormat: '{{name}}'
+                seriesNameFormat: '{{pod}}'
   "2_2":
     kind: Panel
     spec:
