@@ -47,7 +47,6 @@ panels:
         kind: Markdown
         spec:
           text: '**Migration from Grafana not supported !**'
-      queries: []
   "2":
     kind: Panel
     spec:
@@ -57,7 +56,6 @@ panels:
         kind: Markdown
         spec:
           text: '**Migration from Grafana not supported !**'
-      queries: []
   "3":
     kind: Panel
     spec:
@@ -67,7 +65,6 @@ panels:
         kind: Markdown
         spec:
           text: '**Migration from Grafana not supported !**'
-      queries: []
 layouts:
   - kind: Grid
     spec:
