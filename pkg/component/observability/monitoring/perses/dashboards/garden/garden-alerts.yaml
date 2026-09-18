@@ -1,5 +1,5 @@
 display:
-  name: Alerts
+  name: Garden Alerts
 variables:
   - kind: ListVariable
     spec:
