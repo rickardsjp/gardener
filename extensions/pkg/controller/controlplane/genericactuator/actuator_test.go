@@ -406,8 +406,8 @@ var _ = Describe("Actuator", func() {
 			Expect(err).NotTo(HaveOccurred())
 
 			expectSecretsManagedBySecretsManager(ctx, fakeClient, "wanted secrets should get created",
-				"ca-provider-test-controlplane-05334c48", "ca-provider-test-controlplane-bundle-67817cb3",
-				"cloud-controller-manager-c249bd1b",
+				caNameControlPlane, caNameControlPlane+"-bundle",
+				"cloud-controller-manager",
 			)
 
 			if webhookConfig != nil {
@@ -605,7 +605,9 @@ var (
 	objectIdentifier = Identifier(func(obj any) string {
 		switch o := obj.(type) {
 		case corev1.Secret:
-			return o.GetName()
+			// Generated certificate bytes and their name suffix can change across Go versions.
+			// Identify the resource by its stable config name; checksum assertions above still verify its data.
+			return o.Labels[secretsmanager.LabelKeyName]
 		}
 		return obj.(client.Object).GetName()
 	})

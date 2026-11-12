@@ -6,6 +6,7 @@ package shootstate_test
 
 import (
 	"context"
+	"encoding/json"
 	"time"
 
 	machinev1alpha1 "github.com/gardener/machine-controller-manager/pkg/apis/machine/v1alpha1"
@@ -237,7 +238,7 @@ var _ = Describe("ShootState", func() {
 			It("should compute the expected spec for both gardener and extensions data and overwrite the spec", func() {
 				Expect(Deploy(ctx, fakeClock, fakeGardenClient, fakeSeedClient, shoot, controlPlaneNamespace, true)).To(Succeed())
 				Expect(fakeGardenClient.Get(ctx, client.ObjectKeyFromObject(shootState), shootState)).To(Succeed())
-				Expect(shootState.Spec).To(Equal(expectedSpec))
+				Expect(shootState.Spec).To(WithTransform(normalizeMachineState, Equal(normalizeMachineState(expectedSpec))))
 			})
 
 			It("should compute expected spec for both gardener and extension data and overwrite the spec with no longer existing machine resources", func() {
@@ -251,7 +252,7 @@ var _ = Describe("ShootState", func() {
 				gardenerResourceData.Delete("machine-state")
 				expectedSpec.Gardener = gardenerResourceData
 
-				Expect(shootState.Spec).To(Equal(expectedSpec))
+				Expect(shootState.Spec).To(WithTransform(normalizeMachineState, Equal(normalizeMachineState(expectedSpec))))
 			})
 
 			It("should compute the expected spec for both gardener and extensions data and keep existing data in the spec", func() {
@@ -261,7 +262,7 @@ var _ = Describe("ShootState", func() {
 				expectedSpec.Gardener = append(existingGardenerData, expectedSpec.Gardener...)
 				expectedSpec.Extensions = append(existingExtensionsData, expectedSpec.Extensions...)
 				expectedSpec.Resources = append(existingResourcesData, expectedSpec.Resources...)
-				Expect(shootState.Spec).To(Equal(expectedSpec))
+				Expect(shootState.Spec).To(WithTransform(normalizeMachineState, Equal(normalizeMachineState(expectedSpec))))
 			})
 
 			It("should compute the expected spec for both gardener and extension data and keep existing data in the spec if machine resources were deleted", func() {
@@ -274,7 +275,7 @@ var _ = Describe("ShootState", func() {
 				expectedSpec.Gardener = append(existingGardenerData, expectedSpec.Gardener...)
 				expectedSpec.Extensions = append(existingExtensionsData, expectedSpec.Extensions...)
 				expectedSpec.Resources = append(existingResourcesData, expectedSpec.Resources...)
-				Expect(shootState.Spec).To(Equal(expectedSpec))
+				Expect(shootState.Spec).To(WithTransform(normalizeMachineState, Equal(normalizeMachineState(expectedSpec))))
 			})
 		})
 	})
@@ -291,6 +292,23 @@ var _ = Describe("ShootState", func() {
 		})
 	})
 })
+
+// Compare the saved machine data, not a Go-version-specific gzip byte sequence.
+// Both actual and expected compressed values must decode successfully.
+func normalizeMachineState(spec gardencorev1beta1.ShootStateSpec) gardencorev1beta1.ShootStateSpec {
+	normalized := spec.DeepCopy()
+	for i := range normalized.Gardener {
+		entry := &normalized.Gardener[i]
+		if entry.Name != "machine-state" || entry.Type != "machine-state" {
+			continue
+		}
+		state, err := UnmarshalMachineState(entry.Data.Raw)
+		ExpectWithOffset(1, err).NotTo(HaveOccurred())
+		entry.Data.Raw, err = json.Marshal(state)
+		ExpectWithOffset(1, err).NotTo(HaveOccurred())
+	}
+	return *normalized
+}
 
 func newSecret(name, namespace string, withPersistLabel bool, withManagedByLabel bool, opts ...func(*corev1.Secret)) *corev1.Secret {
 	secret := &corev1.Secret{

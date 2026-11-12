@@ -203,7 +203,7 @@ var _ = Describe("SecretsManager Extension Utils", func() {
 					expectSecrets(fakeClient,
 						"my-extension-ca-013c464d", "my-extension-ca-bundle-5d66d235",
 						"my-extension-ca-2-673cf9ab", "my-extension-ca-2-bundle-203815c3",
-						"some-server-311b1512", "some-secret-4b8f9d51")
+						serverSecretName(fakeClient), "some-secret-4b8f9d51")
 				})
 			})
 
@@ -227,7 +227,7 @@ var _ = Describe("SecretsManager Extension Utils", func() {
 						expectSecrets(fakeClient,
 							"my-extension-ca-013c464d", "my-extension-ca-bundle-13af9da9",
 							"my-extension-ca-2-673cf9ab", "my-extension-ca-2-bundle-31a61b2d",
-							"some-server-6a316552", "some-secret-4b8f9d51")
+							serverSecretName(fakeClient), "some-secret-4b8f9d51")
 					})
 				})
 
@@ -249,7 +249,7 @@ var _ = Describe("SecretsManager Extension Utils", func() {
 						expectSecrets(fakeClient,
 							"my-extension-ca-013c464d", "my-extension-ca-013c464d-431ab", "my-extension-ca-bundle-44e6e2d3",
 							"my-extension-ca-2-673cf9ab", "my-extension-ca-2-673cf9ab-431ab", "my-extension-ca-2-bundle-87b16f32",
-							"some-server-6a316552", "some-secret-4b8f9d51")
+							serverSecretName(fakeClient), "some-secret-4b8f9d51")
 					})
 				})
 
@@ -271,7 +271,7 @@ var _ = Describe("SecretsManager Extension Utils", func() {
 						expectSecrets(fakeClient,
 							"my-extension-ca-013c464d-431ab", "my-extension-ca-bundle-d36ef68b",
 							"my-extension-ca-2-673cf9ab-431ab", "my-extension-ca-2-bundle-b966633c",
-							"some-server-adeebe1f", "some-secret-4b8f9d51")
+							serverSecretName(fakeClient), "some-secret-4b8f9d51")
 					})
 				})
 			})
@@ -446,6 +446,15 @@ func expectSecrets(c client.Reader, secretNames ...string) {
 	secretList := &corev1.SecretList{}
 	ExpectWithOffset(1, c.List(context.Background(), secretList, client.MatchingLabels{"managed-by": "secrets-manager"})).To(Succeed())
 	ExpectWithOffset(1, secretList.Items).To(consistOfObjects(secretNames...))
+}
+
+// The generated server certificate's name suffix is not stable across Go versions.
+// Keep exact-name checks for CA rotation and require exactly one server certificate.
+func serverSecretName(c client.Reader) string {
+	secretList := &corev1.SecretList{}
+	ExpectWithOffset(1, c.List(context.Background(), secretList, client.MatchingLabels{"name": "some-server"})).To(Succeed())
+	ExpectWithOffset(1, secretList.Items).To(HaveLen(1))
+	return secretList.Items[0].Name
 }
 
 func expectSecretsForConfig(c client.Reader, config secretsutils.ConfigInterface, description string, secretNames ...string) {
