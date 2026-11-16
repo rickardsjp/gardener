@@ -320,6 +320,33 @@ data:
   my-custom-dashboard.json: <dashboard-JSON-document>
 ```
 
+> [!WARNING]
+> Plutono is deprecated and is being replaced by [Perses](https://perses.dev/).
+> Starting with Gardener `v1.165`, extensions are expected to provide their dashboards as `PersesDashboard` resources, as described in the next section.
+> Dashboards provided as Plutono `ConfigMap`s will no longer be shown from that release on.
+
+##### Perses Dashboards
+
+[Perses](https://perses.dev/) replaces Plutono for visualizing monitoring metrics and logs via dashboards.
+In order to provide custom dashboards, create a `PersesDashboard` resource in the shoot cluster's namespace that selects the `perses-shoot` instance, for example:
+
+```yaml
+apiVersion: perses.dev/v1alpha2
+kind: PersesDashboard
+metadata:
+  name: extension-foo-my-custom-dashboard
+  namespace: shoot--project--name
+spec:
+  instanceSelector:
+    matchLabels:
+      app.kubernetes.io/instance: perses-shoot
+  config: <dashboard-specification>
+```
+
+The shoot cluster's namespace does not contain a Perses instance yet, so keep providing the Plutono `ConfigMap` alongside the `PersesDashboard` until Gardener `v1.165`.
+For how to convert an existing dashboard, see [Migrate from Grafana](https://perses.dev/perses/docs/migration/) in the Perses documentation.
+To verify that a converted dashboard works, run a local Perses instance and point it at the shoot Prometheus, for example via `kubectl port-forward` to the `prometheus-shoot` service in the shoot cluster's namespace.
+
 ## Logging
 
 In Kubernetes clusters, container logs are non-persistent and do not survive stopped and destroyed containers. Gardener addresses this problem for the components hosted in a seed cluster by introducing its own managed logging solution. It is integrated with the Gardener monitoring stack to have all troubleshooting context in one place.
